@@ -12,4 +12,4 @@
 | 201716918 | 범진혁 | 카드, 족보파트|
 | 201716946 | 임정훈 | 게임진행구현(컴퓨터), 홈페이지 제작|
 
-[IT Computer Homepage](http://it.jbnu.ac.kr)
+[R.S Team Project](http://it.jbnu.ac.kr)
