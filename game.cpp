@@ -62,7 +62,7 @@ void choiceBet(player member[], int& gambler, int leader, int& totalBet)
 		{
 			nowBet = (nowBet + 1)%survivor;
 		}
-		cout << "현재 차례 : " << nowBet << endl;
+		cout << "현재 차례 : " << member[nowBet].getName() << endl;
 		if (first == 0) //첫 턴 leader만 배팅 다름.
 		{
 			betMoney = member[nowBet].leaderBet(totalBet, gambler);
@@ -75,7 +75,7 @@ void choiceBet(player member[], int& gambler, int leader, int& totalBet)
 				{
 					nowBet = (nowBet + 1) % survivor;
 				}
-				cout << "현재 차례 : " << nowBet << endl;
+				cout << "현재 차례 : " << member[nowBet].getName() << endl;
 				betMoney = member[nowBet].leaderBet(totalBet, gambler);
 			}
 			first = 999;
@@ -130,7 +130,7 @@ void choiceFollower(player  member[], int& betMoney, int& totalBet, int& gambler
 			{
 				nowBet = (nowBet + 1) % survivor;
 			}
-			cout << "현재 차례 : " << nowBet << endl
+			cout << "현재 차례 : " << member[nowBet].getName() << endl
 				<< "전체 배팅 금액: " << totalBet << endl
 				<< "현재 배팅 : " << betMoney << endl;
 			if (gambler == 1)
@@ -247,7 +247,6 @@ void reGame(player member[],player& dealer)
 	if (check != 'n' && check != 'N')
 		playGame(member, dealer);
 
-
 }
 
 
@@ -255,7 +254,7 @@ void testPlayer(player member[])
 {
 	for (int i = 0; i < 5; i++) 
 	{
-		cout << "---------------" << i << "번째---------------\n"
+		cout << "---------------" << member[i].getName() << "---------------\n"
 			 << "Gaem Money : " << member[i].getMoney()<<endl
 			 << "Play check : " << member[i].checkPlayer()<<endl
 			 << "Survivor check : " << member[i].checkSurvivor()<<endl
@@ -275,11 +274,9 @@ void playGame(player member[], player & dealer) // 게임 진행
 	int gambler = survivor;
 	obliBet(member, totalBet);
 
-	cout << endl << member[0].getName() << endl;
-
 	for (int i = 0; i < gambler; i++) // 2장씩 배팅
 	{
-		cout << i << "플레이어 카드 분배\n";
+		cout << member[i].getName() << "의 플레이어 카드 분배\n";
 		member[i].takeCard();
 		member[i].takeCard();
 	}
@@ -294,7 +291,7 @@ void playGame(player member[], player & dealer) // 게임 진행
 
 	for (int i = 0; i < 3; i++)
 	{
-		cout << i << "번째 배팅\n";
+		cout << member[i].getName() << "의 배팅\n";
 		choiceBet(member, gambler, leader, totalBet);
 		if (gambler == 1)
 			break;
@@ -307,7 +304,7 @@ void playGame(player member[], player & dealer) // 게임 진행
 			} while (member[leader].checkPlayer() == false);
 		}
 		for (int j = 0; j < 5; j++)
-			cout << j << "번째 게임머니 : " << member[j].getMoney()<<endl;
+			cout << member[j].getName() << "의 게임머니 : " << member[j].getMoney()<<endl;
 	}
 
 	//endGame(member, gambler);

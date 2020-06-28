@@ -201,3 +201,8 @@ void player::call(int& betMoney,int &totalMoney)
 {
 	totalMoney = totalMoney + betMoney;
 }
+
+player::player(string setN) : used(0), gameMoney(50), play(true), die(false)
+{
+	name = setN;
+}

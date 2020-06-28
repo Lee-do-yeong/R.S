@@ -49,6 +49,7 @@ public:
 	void resetUsed();
 	int returnUsed();
 	void call(int& betMoney, int& totalMoney);
+	player(string setN);
 protected:
 	int used; // 받은 카드 갯수
 	int gameMoney;
