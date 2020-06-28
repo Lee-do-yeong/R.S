@@ -1,7 +1,14 @@
 #include "poker_header.h"
 
+extern int survivor;
+extern int top;
+
 player::player() : used(0), gameMoney(50), play(true), die(false)
-{}
+{
+	char* temp;
+	temp = new char[20];
+	name = temp;
+}
 
 ostream& operator<< (ostream& a, const card& thiscard) // 삭제 고려
 {
@@ -34,7 +41,7 @@ void player::payMoney(int pay, int& totalBet) //첫 의무돈 지불, 콜
 void player::playerDie(int& gambler) 
 {
 	play = false;
-	die = true;
+	die = false;
 	gambler--;
 }
 
@@ -72,10 +79,12 @@ int player::getMoney()
 int player::inputBet(int &totalBet) // 베팅 범위 정해야 함.
 {
 	int betMoney;
-	do 
+	cin >> betMoney;
+	while (betMoney > gameMoney || betMoney < 0)
 	{
+		cout << "배팅 금액 범위 초과, 다시 입력\n배팅 금액 : ";
 		cin >> betMoney;
-	} while (betMoney>gameMoney || betMoney <= 0);
+	}
 
 	totalBet = totalBet + betMoney;
 	//gameMoney = gameMoney - betMoney; // 고려
@@ -92,10 +101,12 @@ int player::leaderBet(int &totalMoney,int& gambler)
 	switch (choice)
 	{
 	case 1:
+		cout << "---------------------배팅---------------------\n";
 		cout << "배팅 금액 : "; //임시
 		betMoney = inputBet(totalMoney);
 		return betMoney;
 	case 2:
+		cout << "---------------------다 이---------------------\n";
 		playerDie(gambler);
 		return 0;
 	}
@@ -145,10 +156,48 @@ bool player::nowPlay()
 	return play;
 }
 
-void player::checkSurvivor()
+bool player::checkSurvivor()
 {
 	if (die == true)
-		true;
+		return true;
 	else
-		false;
+		return false;
+}
+
+void player::setName(string setN)
+{
+	name = setN;
+}
+
+
+string player::getName()
+{
+	return name;
+}
+
+void player::retireGame()
+{
+	die = true;
+	play = false;
+	survivor--;
+}
+
+void player::returnPlay()
+{
+	play = true;
+}
+
+void player::resetUsed()
+{
+	used = 0;
+}
+
+int player::returnUsed()
+{
+	return used;
+}
+
+void player::call(int& betMoney,int &totalMoney)
+{
+	totalMoney = totalMoney + betMoney;
 }

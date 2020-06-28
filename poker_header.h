@@ -40,15 +40,22 @@ public:
 	void halfBet(int &betMoney,int & totalBet);
 	void dieAllMoney(int& totalMoney);
 	bool nowPlay();
-	void checkSurvivor();
+	bool checkSurvivor();
 	void payBet(int betMoney);
-
+	void setName(string setN);
+	string getName();
+	void retireGame();
+	void returnPlay();
+	void resetUsed();
+	int returnUsed();
+	void call(int& betMoney, int& totalMoney);
 protected:
 	int used; // 받은 카드 갯수
 	int gameMoney;
 	card myCard[5]; // 딜러 때문에 크기 5로 변경
 	bool play ; //이번 판 플레이가 제한된 경우 false로 변경
 	bool die; //이번판 아웃된 경우
+	string name;
 };
 
 
@@ -62,11 +69,15 @@ void playGame(player member[],player &gambler);
 int checkCard();
 void choiceBet(player member[], int &gambler, int leader,int& totalBet);
 int choiceLeader(player member[], const int gambler); // 가장 금액 높은 사람이 첫 배팅 리더
-void choiceFollower(player& follwer, int &betMoney, int& totalBet, int& gambler,int &bet);
+void choiceFollower(player member[], int &betMoney, int& totalBet, int& gambler,int &bet,int& nowBet);
 void cant_Bet(player& follwer, int& betMoney, int& gambler,int& totalBet);
-void endGame();
-void checkOutCom(player member[]);
-void resetGame();
+void resetGame(player member);
 
 //---------------------------------- -
-void nowWho(int& nowBet);
+void checkDie(player member[], int& gambler);
+void resetGame(player member);
+void suppleDeck(); // 임시
+void endGame(player member[], int& gambler);
+void reGame(player member[], player& delaer);
+void resultantPlate(player member[]);
+void testPlayer(player member[]);
