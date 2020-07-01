@@ -1,5 +1,3 @@
-import random;
-
 enum Pedi {
 	High_card = 1, // 보드와 무관한 카드 숫자가 높은 사람이 이김
 	  //카드 숫자가 모두 똑같으면 비김 // 1
@@ -68,18 +66,9 @@ int rating(string pedigree) // 매개변수로 pedigree (문자열) 전달
 노페어 콜을확률 더블 올인 다이 하프 확률 각각
 
 
-# define 1
-# define 1
-# define 1
-# define 1
-# define 1
-# define 1
-# define 1
 
 
-
-void probabli{
-  //	for(i=0; i<5  i++){     // 콜 1 다이 2 더블 3 하프 4 올인 5 
+int probabli{   
 	
 float pro = rand() % 10000;
 
@@ -192,4 +181,4 @@ else if (pedigree == four_card) {
 	return 5;
 }
 }
-}
+
