@@ -3,26 +3,21 @@
 extern int survivor;
 extern int top;
 
-player::player() : used(0), gameMoney(50), play(true), die(false)
+Player::Player() : used(0), gameMoney(50), play(true), die(false)
 {
 	char* temp;
 	temp = new char[20];
 	name = temp;
 }
 
-ostream& operator<< (ostream& a, const card& thiscard) // 삭제 고려
-{
-	a << thiscard.pat << thiscard.cardNumber;
 
-	return a;
-}
 
-void player::showMoney() // 남은 플레이어 돈 확인
+void Player::showMoney() // 남은 플레이어 돈 확인
 {
 	cout << gameMoney << endl;
 }
 
-void player::payMoney(int pay, int& totalBet) //첫 의무돈 지불, 콜
+void Player::payMoney(int pay, int& totalBet) //첫 의무돈 지불, 콜
 {
 	if (pay >= gameMoney)
 	{
@@ -38,26 +33,20 @@ void player::payMoney(int pay, int& totalBet) //첫 의무돈 지불, 콜
 	}
 }
 
-void player::playerDie(int& gambler) 
+void Player::playerDie(int& gambler,int dieMoney) 
 {
+	gameMoney = gameMoney - dieMoney;
 	play = false;
 	die = false;
 	gambler--;
 }
 
-void player::getCard(card newCard1, card newCard2)
-{
-	cout << "카드 2장 드로우\n"; // 임시
-	myCard[0] = newCard1;
-	myCard[1] = newCard2;
-}
-
-void player::payBet(int betMoney)
+void Player::payBet(int betMoney)
 {
 	gameMoney = gameMoney - betMoney;
 }
 
-bool player::checkPlayer()
+bool Player::checkPlayer()
 {
 	if (play == true)
 		return true;
@@ -65,61 +54,43 @@ bool player::checkPlayer()
 		return false;
 }
 
-void player::takeCard()
-{
-	cout << "카드 받음\n"; //임시
-	myCard[used++] = drawCard();
-}
-
-int player::getMoney()
+int Player::getMoney()
 {
 	return gameMoney;
 }
 
-int player::inputBet(int &totalBet) // 베팅 범위 정해야 함.
+void Player::inputBet(int &totalBet,int& betMoney) // 베팅 범위 정해야 함.
 {
-	int betMoney;
-	cin >> betMoney;
-	while (betMoney > gameMoney || betMoney < 0)
-	{
-		cout << "배팅 금액 범위 초과, 다시 입력\n배팅 금액 : ";
-		cin >> betMoney;
-	}
-
 	totalBet = totalBet + betMoney;
 	//gameMoney = gameMoney - betMoney; // 고려
-
-	return betMoney;
 }
 
-int player::leaderBet(int &totalMoney,int& gambler)
+void Player::leaderBet(int &totalMoney,int& gambler,int dieMoney,int &betMoney) //85 36
 {
-	cout << "리더 배팅 (1: 배팅, 2: 다이)\n";//임시
-	int choice, betMoney;
-	cin >> choice;
+	int choice = 0;
 
+	choice = choice_betting(betMoney);
 	switch (choice)
 	{
 	case 1:
-		cout << "---------------------배팅---------------------\n";
-		cout << "배팅 금액 : "; //임시
-		betMoney = inputBet(totalMoney);
-		return betMoney;
+		inputBet(totalMoney,betMoney);
+		break;
 	case 2:
-		cout << "---------------------다 이---------------------\n";
-		playerDie(gambler);
-		return 0;
+		interDie();
+		playerDie(gambler,dieMoney);
+		betMoney = 0;
 	}
+	gotoxy(83, 12);
 }
 
-void player::doubleBet(int& betMoney,int& totalBet)
+void Player::doubleBet(int& betMoney,int& totalBet)
 {
 	betMoney = betMoney * 2;
 	//gameMoney = gameMoney - betMoney; //고려
 	totalBet = totalBet + betMoney;
 }
 
-void player::allMoney(int& betMoney, int& totalBet)
+void Player::allMoney(int& betMoney, int& totalBet)
 {
 	totalBet = totalBet - betMoney;
 	betMoney = gameMoney;
@@ -128,7 +99,7 @@ void player::allMoney(int& betMoney, int& totalBet)
 	play = false;
 }
 
-bool player::canBet(int betMoney) //배팅할 능력이 있는지 판단
+bool Player::canBet(int betMoney) //배팅할 능력이 있는지 판단
 {
 	if (betMoney > gameMoney)
 		return false;
@@ -136,7 +107,7 @@ bool player::canBet(int betMoney) //배팅할 능력이 있는지 판단
 		return true;
 }
 
-void player::halfBet(int& betMoney, int& totalBet)
+void Player::halfBet(int& betMoney, int& totalBet)
 {
 	totalBet = totalBet - betMoney;
 	betMoney = totalBet / 2;
@@ -144,19 +115,19 @@ void player::halfBet(int& betMoney, int& totalBet)
 	totalBet = betMoney;
 }
 
-void player::dieAllMoney(int& totalBet)
+void Player::dieAllMoney(int& totalBet)
 {
 	totalBet = totalBet + gameMoney;
 	gameMoney = 0; //고려
 	play = false;
 }
 
-bool player::nowPlay()
+bool Player::nowPlay()
 {
 	return play;
 }
 
-bool player::checkSurvivor()
+bool Player::checkSurvivor()
 {
 	if (die == true)
 		return true;
@@ -164,45 +135,66 @@ bool player::checkSurvivor()
 		return false;
 }
 
-void player::setName(string setN)
-{
-	name = setN;
-}
 
-
-string player::getName()
+string Player::getName()
 {
 	return name;
 }
 
-void player::retireGame()
+void Player::retireGame()
 {
 	die = true;
 	play = false;
 	survivor--;
 }
 
-void player::returnPlay()
+void Player::returnPlay()
 {
 	play = true;
 }
 
-void player::resetUsed()
+void Player::resetUsed()
 {
 	used = 0;
 }
 
-int player::returnUsed()
+int Player::returnUsed()
 {
 	return used;
 }
 
-void player::call(int& betMoney,int &totalMoney)
+void Player::call(int& betMoney,int &totalMoney)
 {
 	totalMoney = totalMoney + betMoney;
 }
 
-player::player(string setN) : used(0), gameMoney(50), play(true), die(false)
+Player::Player(string setN) : used(0), gameMoney(50), play(true), die(false)
 {
 	name = setN;
+}
+
+void Player::setCardSR(int R, int S, int now)
+{
+		myCard[now].setSR(S, R);
+	//	cout << myCard[0].getR() << " " << myCard[0].getS() << " " << myCard[1].getR() << " " << myCard[1].getS() << " \n";
+}
+void Player::setMax(int maxP, int maxN)
+{
+	maxPattern = maxP;
+	maxNumber = maxN;
+}
+
+card* Player::getCard()
+{
+	return myCard;
+}
+
+int Player::numGetCard(int num)
+{
+	return myCard[num].getR();
+}
+
+int Player::patGetCard(int num)
+{
+	return myCard[num].getS();
 }
