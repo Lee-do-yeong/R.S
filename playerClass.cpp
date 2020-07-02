@@ -65,20 +65,52 @@ void Player::inputBet(int &totalBet,int& betMoney) // 베팅 범위 정해야 함.
 	//gameMoney = gameMoney - betMoney; // 고려
 }
 
-void Player::leaderBet(int &totalMoney,int& gambler,int dieMoney,int &betMoney) //85 36
+void Player::leaderBet(int &totalMoney,int& gambler,int dieMoney,int &betMoney,int nowBet,int turn,Player member[],Player &dealer) //85 36
 {
-	int choice = 0;
-
-	choice = choice_betting(betMoney);
+	int choice = 0,temp;
+	if (nowBet==0)
+		choice = choice_betting(betMoney);
+	else
+	{
+		gotoxy(84, 12);
+		cout << "리더 베팅";
+		switch (turn)
+		{
+		case 1:
+			temp = aPedigree_check(member[nowBet], dealer.getCard(), member[nowBet].getCard());
+			choice = probabli_Leader(temp,betMoney,member[nowBet]);
+			computaTurn(member, nowBet);
+			break;
+		case 2:
+			temp = Bpedigree_check(member[nowBet], dealer.getCard(), member[nowBet].getCard());
+			choice = probabli_Leader(temp, betMoney, member[nowBet]);
+			computaTurn(member, nowBet);
+			break;
+		case 3:
+			temp = Cpedigree_check(member[nowBet], dealer.getCard(), member[nowBet].getCard());
+			choice = probabli_Leader(temp, betMoney, member[nowBet]);
+			computaTurn(member, nowBet);
+		}
+		gotoxy(79, 12);
+		cout << "                      ";
+	}
 	switch (choice)
 	{
 	case 1:
 		inputBet(totalMoney,betMoney);
 		break;
 	case 2:
+		interAllin();
+		betMoney = gameMoney;
+		play = false;
+		gameMoney = 0;
+		totalMoney = totalMoney + gameMoney;
+		break;
+	case 3:
 		interDie();
-		playerDie(gambler,dieMoney);
+		playerDie(gambler, dieMoney);
 		betMoney = 0;
+
 	}
 	gotoxy(83, 12);
 }
@@ -93,7 +125,10 @@ void Player::doubleBet(int& betMoney,int& totalBet)
 void Player::allMoney(int& betMoney, int& totalBet)
 {
 	totalBet = totalBet - betMoney;
-	betMoney = gameMoney;
+	if(betMoney % 2 == 1)
+		betMoney = gameMoney/2+1;
+	else
+		betMoney = gameMoney / 2;
 	gameMoney = 0; //고려
 	totalBet = totalBet + betMoney;
 	play = false;
@@ -112,7 +147,7 @@ void Player::halfBet(int& betMoney, int& totalBet)
 	totalBet = totalBet - betMoney;
 	betMoney = totalBet / 2;
 	//gameMoney = gameMoney - betMoney; //고려
-	totalBet = betMoney;
+	totalBet = totalBet + betMoney;
 }
 
 void Player::dieAllMoney(int& totalBet)
@@ -197,4 +232,20 @@ int Player::numGetCard(int num)
 int Player::patGetCard(int num)
 {
 	return myCard[num].getS();
+}
+
+int Player::getNMax()
+{
+	return maxNumber;
+}
+
+int Player::getPMax()
+{
+	return maxPattern;
+}
+
+void Player::winnerMoney(int& totalBet)
+{
+	gameMoney = gameMoney + totalBet;
+	totalBet = 0;
 }
