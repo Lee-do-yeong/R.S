@@ -1,6 +1,6 @@
 //족보 검사 함수 aPedigree_check
 // 5장의 카드 족보 검사
-int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫자R[] , 문양S[], Player 매개변수로 전달
+int aPedigree_check(Player& nowPlay, int R[], int S[], Player play) // 덱의 숫자R[] , 문양S[], Player 매개변수로 전달
 {
     //먼저 배열 정렬
     arrsort(R, S, 5);
@@ -8,9 +8,12 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
     int ptr1, ptr2;
     // 처음에 Pedigree를  High_card로 초기화
     int Pedigree = High_card;
+    ptr1 = R[4];
+    ptr2 = S[4];
+    nowPlay.setMax(ptr1, ptr2);
 
     // pair 체크
-    if (R[0] == R[1] || R[1] == R[2] || R[2] == R[3] || R[3] == R[4])
+    if ((R[0] == R[1]) || (R[1] == R[2]) || (R[2] == R[3]) || (R[3] == R[4]))
     {
         //one pair 검사
         if ((R[0] == R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]))
@@ -23,7 +26,7 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
                 ptr2 = S[0];
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if ((R[1] == R[2]) && (R[0] != R[1]) && (R[2] != R[3]) && (R[3] != R[4]))
+        else if ((R[1] == R[2]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]))
         {
             Pedigree = One_pair;
             ptr1 = R[2];
@@ -33,7 +36,7 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
                 ptr2 = S[1];
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if (R[2] == R[3] && R[0] != R[1] && R[1] != R[2] && R[3] != R[4])
+        else if ((R[2] == R[3]) && (R[0] != R[1]) && (R[1] != R[3]) &&( R[3] != R[4]))
         {
             Pedigree = One_pair;
             ptr1 = R[3];
@@ -43,7 +46,7 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
                 ptr2 = S[3];
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if (R[3] == R[4] && R[0] != R[1] && R[1] != R[2] && R[2] != R[3])
+        else if ((R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[4]))
         {
             Pedigree = One_pair;
             ptr1 = R[4];
@@ -55,21 +58,21 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
         }
 
         // two pair  검사
-        else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3] != R[4]))
+        else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3]) && (R[3] != R[4]))
         {
             Pedigree = Two_pair;
             ptr1 = R[3];
             ptr2 = 0;
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2] != R[4]))
+        else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2]) && (R[2] != R[4]))
         {
             Pedigree = Two_pair;
             ptr1 = R[4];
             ptr2 = 0;
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[1] != R[3]))
+        else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[2]) && (R[2] != R[4]))
         {
             Pedigree = Two_pair;
             ptr1 = R[4];
@@ -78,21 +81,21 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
         }
 
         //triple 체크
-        else if ((R[0] == R[1] == R[2]) && (R[2] != R[3] != R[4]))
+        else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] != R[3]) && (R[3] != R[4]))
         {
             Pedigree = Triple;
             ptr1 = R[2];
             ptr2 = 0;
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if ((R[1] == R[2] == R[3]) && (R[0] !=  R[3] != R[4]))
+        else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[0] != R[3]) && (R[3] != R[4]))
         {
             Pedigree = Triple;
             ptr1 = R[3];
             ptr2 = 0;
             nowPlay.setMax(ptr1, ptr2);
         }
-        else if ((R[2] == R[3] == R[4]) && (R[0] != R[1] != R[4]))
+        else if ((R[2] == R[3]) && (R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[4]))
         {
             Pedigree = Triple;
             ptr1 = R[4];
@@ -101,14 +104,14 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
         }
 
         //full house 체크
-        else if ((R[0] == R[1] == R[2]) && (R[3] == R[4]))
+        else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[3] == R[4]) && (R[2] != R[4]))
         {
             Pedigree = Full_house;
             ptr1 = R[2];
             ptr2 = 0;
             nowPlay.setMax(ptr1, ptr2)
         }
-        else if ((R[2] == R[3] == R[4]) && (R[0] == R[1]))
+        else if ((R[2] == R[3]) && (R[3] == R[4]) && (R[0] == R[1]) && (R[1] != R[4]))
         {
             Pedigree = Full_house;
             ptr1 = R[4];
@@ -117,13 +120,16 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
         }
 
         //four card 체크
-        else if ((R[0] == R[1] == R[2] == R[3]) || (R[1] == R[2] == R[3] == R[4]))
+        else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] == R[3]))
         {
             Pedigree = Four_card;
-            if (R[0] == R[1] == R[2] == R[3])
-                ptr1 = R[3];
-            if (R[1] == R[2] == R[3] == R[4])
-                ptr1 = R[4];
+            ptr1 = R[3];
+            ptr2 = 0;
+            nowPlay.setMax(ptr1, ptr2);
+        }
+        else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[3] == R[4]))
+        {
+            ptr1 = R[4];
             ptr2 = 0;
             nowPlay.setMax(ptr1, ptr2);
         }
@@ -150,14 +156,16 @@ int aPedigree_check(Player &nowPlay,int R[], int S[],Player play) // 덱의 숫�
     //straight flush 체크 
     if (((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4])))
     {
-            Pedigree = Straight_flush;
-            ptr1 = R[4];
-            ptr2 = S[4];
-            nowPlay.setMax(ptr1, ptr2);
+        Pedigree = Straight_flush;
+        ptr1 = R[4];
+        ptr2 = S[4];
+        nowPlay.setMax(ptr1, ptr2);
     }
-	if (play.checkPlay() == fasle)
-	{
-		pedigree = Die;
-	}
+
+    // 플레이어가 die 했을 경우
+    if (play.checkPlay() == fasle)
+    {
+        pedigree = Die;
+    }
     return Pedigree;
 }
