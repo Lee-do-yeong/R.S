@@ -1,5 +1,5 @@
 //두명의 패 족보 서로 비교하는 함수
-string pchecking(int pedigree1, int pedigree2 , int amax_number, int amax_pattern, int bmax_number, int bmax_pattern)
+string pchecking(int pedigree1, int pedigree2, int amax_number, int amax_number2, int amax_pattern, int amax_pattern2, int bmax_number, int bmax_number2, int bmax_pattern, int bmax_pattern2)
 {
 	string winner;
 
@@ -18,10 +18,10 @@ string pchecking(int pedigree1, int pedigree2 , int amax_number, int amax_patter
 			// maxnumber가 큰 사람이 winner
 			if (amax_number > bmax_number)
 				winner = "player 1";
-			else if (amax_number > bmax_number)
+			else if (amax_number < bmax_number)
 				winner = "player 2";
 			// maxnumber가 같으면 문양으로 승자 결정
-			else if(amax_number == bmax_number)
+			else if (amax_number == bmax_number)
 			{
 				if (amax_pattern > bmax_pattern)
 					winner = "player 1";
@@ -43,10 +43,25 @@ string pchecking(int pedigree1, int pedigree2 , int amax_number, int amax_patter
 					winner = " player1";
 				if (amax_pattern < bmax_pattern)
 					winner = " player2";
+				if (amax_pattern == bmax_pattern)
+				{
+					if (amax_number2 > bmax_number2)
+						winner = "player1";
+					if (amax_number2 < bmax_number2)
+						winner = "player2";
+					if (amax_number2 == bmax_number2)
+					{
+						if (amax_pattern2 > bmax_pattern2)
+							winner = "player1";
+						if (amax_pattern2 < bmax_pattern2)
+							winner = "player2";
+					}
+				}
+					
 			}
 		}
 
-	    // two pair 로 같을 때
+		// two pair 로 같을 때
 		else if (pedigree1 == Two_pair)
 		{
 			if (amax_number > bmax_number)
@@ -59,6 +74,20 @@ string pchecking(int pedigree1, int pedigree2 , int amax_number, int amax_patter
 					winner = "player1";
 				if (amax_pattern < bmax_pattern)
 					winner = "player2";
+				if (amax_pattern == bmax_pattern)
+				{
+					if (amax_number2 > bmax_number2)
+						winner = "player1";
+					if (amax_number2 < bmax_number2)
+						winner = "player2";
+					if (amax_number2 == bmax_number2)
+					{
+						if (amax_pattern2 > bmax_pattern2)
+							winner = "player1";
+						if (amax_pattern2 < bmax_pattern2)
+							winner = "player2";
+					}
+				}
 			}
 		}
 
@@ -96,11 +125,11 @@ string pchecking(int pedigree1, int pedigree2 , int amax_number, int amax_patter
 				winner = "player2";
 			else if (amax_pattern == bmax_pattern)
 			{
-				if(amax_number > bmax_number)
+				if (amax_number > bmax_number)
 					winner = "player1";
 				else if (amax_number < bmax_number)
 					winner = "player2";
-			}		
+			}
 		}
 
 		// 두 패 모두 full house 인 경우
@@ -124,18 +153,31 @@ string pchecking(int pedigree1, int pedigree2 , int amax_number, int amax_patter
 		//두 패 모두 straight flush 인 경우
 		else if (pedigree1 == Straight_flush)
 		{
-		    if (amax_number > bmax_number)
-			    winner = "player1";
-		    else if (amax_number < bmax_number)
-			    winner = "player2";
-		    else if (amax_number == bmax_number) 
-		    {
-			    if (amax_pattern > bmax_pattern)
-				    winner = "player1";
+			if (amax_number > bmax_number)
+				winner = "player1";
+			else if (amax_number < bmax_number)
+				winner = "player2";
+			else if (amax_number == bmax_number)
+			{
+				if (amax_pattern > bmax_pattern)
+					winner = "player1";
 				else if (amax_pattern < bmax_pattern)
 					winner = "player2";
-		    }
+			}
 		}
 	}
 	return winner;
+}
+
+int max_arr(int arr[])
+{
+	int max, i;
+
+	max = arr[0];
+
+	for (i = 1 ; i < 7 ; i++) {
+		if (max < arr[i])
+			max = arr[i];
+	}
+	return max;
 }
