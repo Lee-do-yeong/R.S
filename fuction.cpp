@@ -114,7 +114,7 @@ int menuChoice()
 
 void gameImage(Player member[])
 {
-	int x = 65;
+	int x = 67;
 	int y = 40;
 	system("color 02");
 	system("cls");
@@ -189,12 +189,11 @@ void showCoin(int x, int y,int coin)
 int bettingMenuChoice()
 {
 	
-	int x = 65;
+	int x = 67;
 	int y = 40;
 	setColor(GREEN, WHITE);
 	
-	gotoxy(81, 12);
-	cout << "팔로우 배팅";
+
 	setColor(BLACK, WHITE);
 	gotoxy(x - 10, y);  cout << "                                                            ";
 	gotoxy(x - 2, y);  cout << "> 콜";
@@ -207,7 +206,7 @@ int bettingMenuChoice()
 		switch (n) {
 		case RIGHT:
 		{
-			if (x < 105)
+			if (x < 107)
 			{
 				gotoxy(x - 2, y); cout << " ";
 				x = x + 10;
@@ -218,7 +217,7 @@ int bettingMenuChoice()
 
 		case LEFT:
 		{
-			if (x > 65)
+			if (x > 67)
 			{
 				gotoxy(x - 2, y); cout << " ";
 				x = x - 10;
@@ -231,8 +230,7 @@ int bettingMenuChoice()
 		{
 			gotoxy(x - 2, y); cout << " ";
 			setColor(GREEN, GREEN);
-			gotoxy(81, 12);
-			cout << "                       ";
+
 			return x - 50;
 		}
 		}
@@ -274,7 +272,7 @@ void interInit()
 	setColor(GREEN, GREEN);
 	for (int i = y; i < y + 5; i++)
 	{
-		gotoxy(45, i);
+		gotoxy(40, i);
 		cout << "▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒";
 	}
 }
@@ -345,6 +343,20 @@ void interAllin()
 	gotoxy(45, y + 2); cout << "     ■■■■■     ■           ■                  ■         ■  ■  ■     ■      ";
 	gotoxy(45, y + 3); cout << "     ■      ■     ■           ■                  ■         ■    ■■             ";
 	gotoxy(45, y + 4); cout << "     ■      ■     ■■■■     ■■■■          ■■■       ■      ■     ■      ";
+	Sleep(1500);
+	interInit();
+	setColor(BLACK, WHITE);
+}
+
+void interBetting()
+{
+	int y = 12;
+	setColor(GREEN, WHITE);
+	gotoxy(40, y);     cout << " ■■■■       ■■■■     ■■■■■     ■■■■■     ■■■       ■      ■       ■■■       ";
+	gotoxy(40, y + 1); cout << " ■     ■      ■               ■             ■           ■         ■■    ■     ■             ";
+	gotoxy(40, y + 2); cout << " ■■■■       ■■■■         ■             ■           ■         ■  ■  ■     ■    ■■     ";
+	gotoxy(40, y + 3); cout << " ■     ■      ■               ■             ■           ■         ■    ■■     ■      ■     ";
+	gotoxy(40, y + 4); cout << " ■■■■       ■■■■         ■             ■         ■■■       ■      ■       ■■■■     ";
 	Sleep(1500);
 	interInit();
 	setColor(BLACK, WHITE);
@@ -464,22 +476,22 @@ void showDealerCard(card dealerCard[],int &num1,int &j,Player &play) // int get 
 		gotoxy(60 + num1, 8); cout << "┃      ┃";
 		gotoxy(60 + num1, 9); cout << "┗━━━━━━┛";
 		//					if(hide != 1){
-		if (shape[dealerCard[j].getS()] == 0) {
+		if (shape[dealerCard[j].getS()] == 3) {
 				setColor(GREEN, BLACK);
 				gotoxy(62 + num1, 4); cout << "♠";
 				gotoxy(65 + num1, 8); cout << "♠";
 		}
-		else if (shape[dealerCard[j].getS()] == 1) {
+		else if (shape[dealerCard[j].getS()] == 2) {
 			setColor(GREEN, RED);
 			gotoxy(62 + num1, 4); cout << "◆";
 			gotoxy(65 + num1, 8); cout << "◆";
 		}
-		else if (shape[dealerCard[j].getS()] == 2) {
+		else if (shape[dealerCard[j].getS()] == 1) {
 			setColor(GREEN, RED);
 			gotoxy(62 + num1, 4); cout << "♥";
 			gotoxy(65 + num1, 8); cout << "♥";
 		}
-		else if (shape[dealerCard[j].getS()] == 3) {
+		else if (shape[dealerCard[j].getS()] == 0) {
 			setColor(GREEN, BLACK);
 			gotoxy(62 + num1, 4); cout << "♣";
 			gotoxy(65 + num1, 8); cout << "♣";
@@ -554,12 +566,11 @@ int choice_betting(int &betMoney)
 {
 	int choice;
 	setColor(GREEN, WHITE);
-	gotoxy(84, 12);
-	cout << "리더 베팅";
+
 	choice = bettingLeaderChoice();
 	betting_coin(choice,betMoney);
-	gotoxy(80, 12);
-	cout << "                 ";
+		gotoxy(79, 12);
+		cout << "                      ";
 
 	return choice;
 }
@@ -586,6 +597,7 @@ void betting_coin(int x,int &betMoney) //배팅 다이
 		setColor(GREEN, GREEN);
 		for (int i = 20; i < 24; i++)
 		{
+			
 			gotoxy(60, i);
 			cout << "▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒";
 		}
@@ -595,7 +607,6 @@ void betting_coin(int x,int &betMoney) //배팅 다이
 		cin >> betMoney;
 	}
 	else if (x == 2) {
-		interAllin();
 		setColor(GREEN, GREEN);
 		for (int i = 20; i < 24; i++)
 		{
@@ -695,20 +706,20 @@ void showSentence(string a,int x,int y)//80 12
 int bettingLeaderChoice()
 {
 	setColor(BLACK, WHITE);
-	int x = 65;
+	int x = 67;
 	int y = 40; 
 	int temp = 1;
 	gotoxy(x - 2, y);  cout << "                                                         ";
 	gotoxy(x + 8, y); cout << "> 배팅";
 	gotoxy(x + 20, y); cout << "올인";
 	gotoxy(x + 30, y); cout << "다이";
-	x = 75;
+	x = 77;
 	while (1) {
 		int n = keyControl();
 		switch (n) {
 		case RIGHT:
 		{
-			if (x < 95)
+			if (x < 97)
 			{
 				gotoxy(x - 2, y); cout << " ";
 				x = x + 10;
@@ -719,7 +730,7 @@ int bettingLeaderChoice()
 
 		case LEFT:
 		{
-			if (x > 75)
+			if (x > 77)
 			{
 				gotoxy(x - 2, y); cout << " ";
 				x = x - 10;
@@ -731,9 +742,9 @@ int bettingLeaderChoice()
 		case CHOICE:
 		{
 			gotoxy(x - 2, y); cout << " ";
-			if (x == 75)
+			if (x == 77)
 				temp = 1;
-			else if (x == 85)
+			else if (x == 87)
 				temp = 2;
 			else
 				temp = 3;
@@ -749,7 +760,7 @@ void checkStatus(Player member[])
 	setColor(BLACK, WHITE);
 	for (int i = 0; i < 5; i++)
 	{
-		if (member[i].checkSurvivor() == true)
+		if (member[i].getRetire() == true)
 		{
 			switch (i)
 			{
@@ -780,7 +791,9 @@ void checkStatus(Player member[])
 				cout << "[ 게임 오버 ]";
 			}
 		}
-		else if (member[i].checkPlayer() == false)
+		else if (member[i].getMoney() == 0)
+			member[i].zeroMoney();
+		else if (member[i].checkPlayer() == false || member[i].checkSurvivor()==true)
 		{
 			switch (i)
 			{
@@ -840,7 +853,7 @@ void checkStatus(Player member[])
 void printAll(Player member[])//80 25 플레이어
 {
 	
-	for (int i = 0; i < 5 && member[i].checkSurvivor()==false; i++) 
+	for (int i = 0; i < 5 && member[i].getRetire()==false; i++) 
 	{
 		switch (i)
 		{
@@ -878,22 +891,22 @@ void PrintMCard(int x, int y, card playerCard[])
 	for (int i = 0; i < 2; i++)
 	{
 		//					if(hide != 1){
-		if (shape[playerCard[j].getS()] == 0) {
+		if (shape[playerCard[j].getS()] == 3) {
 			setColor(GREEN, BLACK);
 			gotoxy(x + 2 + num1, y + 1); cout << "♠";
 			gotoxy(x + 5 + num1, y + 5); cout << "♠";
 		}
-		else if (shape[playerCard[j].getS()] == 1) {
+		else if (shape[playerCard[j].getS()] == 2) {
 			setColor(GREEN, RED);
 			gotoxy(x + 2 + num1, y + 1); cout << "◆";
 			gotoxy(x + 5 + num1, y + 5); cout << "◆";
 		}
-		else if (shape[playerCard[j].getS()] == 2) {
+		else if (shape[playerCard[j].getS()] == 1) {
 			setColor(GREEN, RED);
 			gotoxy(x + 2 + num1, y + 1); cout << "♥";
 			gotoxy(x + 5 + num1, y + 5); cout << "♥";
 		}
-		else if (shape[playerCard[j].getS()] == 3) {
+		else if (shape[playerCard[j].getS()] == 0) {
 			setColor(GREEN, BLACK);
 			gotoxy(x + 2 + num1, y + 1); cout << "♣";
 			gotoxy(x + 5 + num1, y + 5); cout << "♣";
@@ -924,8 +937,8 @@ void Print_result(Player &winner,Player &dealer)
 {
 	string Play_name[5] = { "플레이어", "진혁", "도영", "정훈" , "강민" };
 	int x = 80, y = 15;
-	gotoxy(x, y );     cout << winner.getName()<< ":"; printOrder(Cpedigree_check(winner,dealer.getCard(),winner.getCard()));
-	gotoxy(x, y + 2); cout << "승자는" << winner.getName() << "입니다.";
+	gotoxy(x, y );     cout << winner.getName()<< " : "; printOrder(Cpedigree_check(winner,dealer.getCard(),winner.getCard()));
+	gotoxy(x, y + 2); cout << "승자는 " << winner.getName() << "입니다.";
 }
 
 int bettingCantChoice()

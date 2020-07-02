@@ -23,14 +23,14 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			// maxnumber가 큰 사람이 winner
 			if (one.getNMax() > two.getNMax())
 				winner = &one;
-			else if (one.getNMax() > two.getNMax())
+			else if (one.getNMax() >= two.getNMax())
 				winner = &two;
 			// maxnumber가 같으면 문양으로 승자 결정
 			else if (one.getNMax() == two.getNMax())
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				if (one.getPMax() < two.getPMax())
+				if (one.getPMax() <= two.getPMax())
 					winner = &two;
 			}
 		}
@@ -46,7 +46,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				if (one.getPMax() < two.getPMax())
+				if (one.getPMax() <= two.getPMax())
 					winner = &two;
 			}
 		}
@@ -62,7 +62,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				if (one.getPMax() < two.getPMax())
+				if (one.getPMax() <= two.getPMax())
 					winner = &two;
 			}
 		}
@@ -72,7 +72,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 		{
 			if (one.getNMax() > two.getNMax())
 				winner = &one;
-			else if (one.getNMax() < two.getNMax())
+			else if (one.getNMax() <= two.getNMax())
 				winner = &two;
 		}
 
@@ -87,7 +87,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				else if (one.getPMax() < two.getPMax())
+				else if (one.getPMax() <= two.getPMax())
 					winner = &two;
 			}
 		}
@@ -103,7 +103,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getNMax() > two.getNMax())
 					winner = &one;
-				else if (one.getNMax() < two.getNMax())
+				else if (one.getNMax() <= two.getNMax())
 					winner = &two;
 			}
 		}
@@ -113,7 +113,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 		{
 			if (one.getNMax() > two.getNMax())
 				winner = &one;
-			if (one.getNMax() < two.getNMax())
+			if (one.getNMax() <= two.getNMax())
 				winner = &two;
 		}
 
@@ -122,7 +122,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 		{
 			if (one.getNMax() > two.getNMax())
 				winner = &one;
-			else if (one.getNMax() < two.getNMax())
+			else if (one.getNMax() <= two.getNMax())
 				winner = &two;
 		}
 
@@ -137,7 +137,7 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				else if (one.getPMax() < two.getPMax())
+				else if (one.getPMax() <= two.getPMax())
 					winner = &two;
 			}
 		}

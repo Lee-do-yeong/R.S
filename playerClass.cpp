@@ -33,11 +33,11 @@ void Player::payMoney(int pay, int& totalBet) //첫 의무돈 지불, 콜
 	}
 }
 
-void Player::playerDie(int& gambler,int dieMoney) 
+void Player::playerDie(int& gambler) 
 {
 	gameMoney = gameMoney - dieMoney;
 	play = false;
-	die = false;
+	die = true;
 	gambler--;
 }
 
@@ -65,15 +65,16 @@ void Player::inputBet(int &totalBet,int& betMoney) // 베팅 범위 정해야 함.
 	//gameMoney = gameMoney - betMoney; // 고려
 }
 
-void Player::leaderBet(int &totalMoney,int& gambler,int dieMoney,int &betMoney,int nowBet,int turn,Player member[],Player &dealer) //85 36
+void Player::leaderBet(int &totalMoney,int& gambler, int &betMoney,int nowBet,int turn,Player member[],Player &dealer) //85 36
 {
 	int choice = 0,temp;
+	gotoxy(84, 12);
+	cout << "리더 베팅";
 	if (nowBet==0)
 		choice = choice_betting(betMoney);
 	else
 	{
-		gotoxy(84, 12);
-		cout << "리더 베팅";
+
 		switch (turn)
 		{
 		case 1:
@@ -91,47 +92,42 @@ void Player::leaderBet(int &totalMoney,int& gambler,int dieMoney,int &betMoney,i
 			choice = probabli_Leader(temp, betMoney, member[nowBet]);
 			computaTurn(member, nowBet);
 		}
-		gotoxy(79, 12);
-		cout << "                      ";
+
 	}
 	switch (choice)
 	{
 	case 1:
+		interBetting();
 		inputBet(totalMoney,betMoney);
 		break;
 	case 2:
 		interAllin();
-		betMoney = gameMoney;
-		play = false;
-		gameMoney = 0;
-		totalMoney = totalMoney + gameMoney;
+		allMoney(betMoney, totalMoney, gambler);
 		break;
 	case 3:
 		interDie();
-		playerDie(gambler, dieMoney);
+		playerDie(gambler);
 		betMoney = 0;
 
 	}
-	gotoxy(83, 12);
+	setColor(GREEN, WHITE);
+	gotoxy(79, 12);
+	cout << "                      ";
 }
 
 void Player::doubleBet(int& betMoney,int& totalBet)
 {
 	betMoney = betMoney * 2;
-	//gameMoney = gameMoney - betMoney; //고려
 	totalBet = totalBet + betMoney;
 }
 
-void Player::allMoney(int& betMoney, int& totalBet)
+void Player::allMoney(int& betMoney, int& totalBet, int& gambler)
 {
-	totalBet = totalBet - betMoney;
-	if(betMoney % 2 == 1)
-		betMoney = gameMoney/2+1;
-	else
-		betMoney = gameMoney / 2;
-	gameMoney = 0; //고려
+	betMoney = gameMoney;
+	gameMoney = 0;
 	totalBet = totalBet + betMoney;
 	play = false;
+	gambler--;
 }
 
 bool Player::canBet(int betMoney) //배팅할 능력이 있는지 판단
@@ -144,17 +140,16 @@ bool Player::canBet(int betMoney) //배팅할 능력이 있는지 판단
 
 void Player::halfBet(int& betMoney, int& totalBet)
 {
-	totalBet = totalBet - betMoney;
 	betMoney = totalBet / 2;
-	//gameMoney = gameMoney - betMoney; //고려
 	totalBet = totalBet + betMoney;
 }
 
-void Player::dieAllMoney(int& totalBet)
+void Player::dieAllMoney(int& totalBet,int& gambler)
 {
 	totalBet = totalBet + gameMoney;
 	gameMoney = 0; //고려
 	play = false;
+	gambler--;
 }
 
 bool Player::nowPlay()
@@ -178,6 +173,7 @@ string Player::getName()
 
 void Player::retireGame()
 {
+	retire = true;
 	die = true;
 	play = false;
 	survivor--;
@@ -185,6 +181,7 @@ void Player::retireGame()
 
 void Player::returnPlay()
 {
+	die = false;
 	play = true;
 }
 
@@ -198,12 +195,34 @@ int Player::returnUsed()
 	return used;
 }
 
-void Player::call(int& betMoney,int &totalMoney)
+void Player::call(int& betMoney,int &totalMoney)//,int& pastChoice)
 {
-	totalMoney = totalMoney + betMoney;
+	if(dieMoney ==0)
+		totalMoney = totalMoney + betMoney;
+	else
+	{
+		//switch (pastChoice)
+		//{
+		//case 3: //더블
+		//	while (dieMoney != betMoney / 2)
+		//	{
+		//		betMoney /= 2;
+		//		i++;
+		//	}
+		//	totalMoney = totalMoney + dieMoney*(pow(2,i)-1);
+		//	break;
+		//case 4: //하프
+		//	totalMoney = (betMoney - dieMoney) + totalMoney;
+		//	break;
+		//case 5: //올인
+		//	break;
+		//}
+		totalMoney = (betMoney - dieMoney) + totalMoney;
+	}
+
 }
 
-Player::Player(string setN) : used(0), gameMoney(50), play(true), die(false)
+Player::Player(string setN) : used(0), gameMoney(50), play(true), die(false), dieMoney(0), retire(false)
 {
 	name = setN;
 }
@@ -248,4 +267,24 @@ void Player::winnerMoney(int& totalBet)
 {
 	gameMoney = gameMoney + totalBet;
 	totalBet = 0;
+}
+
+void Player::setDieMoney(int die)
+{
+	dieMoney = die;
+}
+
+int Player::getDieMoney()
+{
+	return dieMoney;
+}
+
+void Player::zeroMoney()
+{
+	play = false;
+}
+
+bool Player::getRetire()
+{
+	return retire;
 }
