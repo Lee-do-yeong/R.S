@@ -1,143 +1,163 @@
 #include "poker_header.h"
 
 //두명의 패 족보 서로 비교하는 함수
-string pchecking(string a, string b, int amax_number, int amax_pattern, int bmax_number, int bmax_pattern)
+Player* pchecking(Player& one,Player &two,Player &dealer)
 {
-	int arank = rating(a);
-	int brank = rating(b);
+	Player* winner=&one;  
+	int pedigree1 = Cpedigree_check(one, dealer.getCard(), one.getCard());
+	int pedigree2 = Cpedigree_check(two, dealer.getCard(), two.getCard());
 
-	string winner;
 
 	// 두 사람의 패 족보 등급이 다를 때
-	if (arank > brank)
-		winner = "player1";
-	else if (arank < brank)
-		winner = "player2";
+	if (pedigree1 > pedigree2)
+		return &one;
+	else if (pedigree1 < pedigree2)
+		return &two;
 
 	// 두 사람의 패 족보 등급이 같을 때
-	else if (arank == brank)
+	else if (pedigree1 == pedigree2)
 	{
 		// highcard로 같을 때
-		if (a == "high_card")
+		if (pedigree1 == High_card)
 		{
 			// maxnumber가 큰 사람이 winner
-			if (amax_number > bmax_number)
-				winner = "player 1";
-			else if (amax_number > bmax_number)
-				winner = "player 2";
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() > two.getNMax())
+				winner = &two;
 			// maxnumber가 같으면 문양으로 승자 결정
-			else if(amax_number == bmax_number)
+			else if (one.getNMax() == two.getNMax())
 			{
-				if (amax_pattern > bmax_pattern)
-					winner = "player 1";
-				if (amax_pattern < bmax_pattern)
-					winner = "player 2";
+				if (one.getPMax() > two.getPMax())
+					winner = &one;
+				if (one.getPMax() < two.getPMax())
+					winner = &two;
 			}
 		}
 
 		// one pair 로 같을 때
-		else if (a == "one_pair")
+		else if (pedigree1 == One_pair)
 		{
-			if (amax_number > bmax_number)
-				winner = "player 1";
-			else if (amax_number < bmax_number)
-				winner = "player 2";
-			else if (amax_number == bmax_number)
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() < two.getNMax())
+				winner = &two;
+			else if (one.getNMax() == two.getNMax())
 			{
-				if (amax_pattern > bmax_pattern)
-					winner = " player1";
-				if (amax_pattern < bmax_pattern)
-					winner = " player2";
+				if (one.getPMax() > two.getPMax())
+					winner = &one;
+				if (one.getPMax() < two.getPMax())
+					winner = &two;
 			}
 		}
-	    // two pair 로 같을 때
-		else if (a == "two_pair")
+
+		// two pair 로 같을 때
+		else if (pedigree1 == Two_pair)
 		{
-			if (amax_number > bmax_number)
-				winner = "player1";
-			else if (amax_number < bmax_number)
-				winner = "player2";
-			else if (amax_number == bmax_number)
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() < two.getNMax())
+				winner = &two;
+			else if (one.getNMax() == two.getNMax())
 			{
-				if (amax_pattern > bmax_pattern)
-					winner = "player1";
-				if (amax_pattern < bmax_pattern)
-					winner = "player2";
+				if (one.getPMax() > two.getPMax())
+					winner = &one;
+				if (one.getPMax() < two.getPMax())
+					winner = &two;
 			}
 		}
+
 		//두 패 모두 트리플 인 경우
-		else if (a == "triple")
+		else if (pedigree1 == Triple)
 		{
-			if (amax_number > bmax_number)
-				winner = "player1";
-			else if (amax_number < bmax_number)
-				winner = "player2";
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() < two.getNMax())
+				winner = &two;
 		}
+
 		//두 패 모두 스트레이트 인 경우
-		else if (a == "straight")
+		else if (pedigree1 == Straight)
 		{
-			if (amax_number > bmax_number)
-				winner = "player1";
-			else if (amax_number < bmax_number)
-				winner = "player2";
-			else if (amax_number == bmax_number)
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() < two.getNMax())
+				winner = &two;
+			else if (one.getNMax() == two.getNMax())
 			{
-				if (amax_pattern > bmax_pattern)
-					winner = "player1";
-				else if (amax_pattern < bmax_pattern)
-					winner = "player2";
+				if (one.getPMax() > two.getPMax())
+					winner = &one;
+				else if (one.getPMax() < two.getPMax())
+					winner = &two;
 			}
 		}
 
 		// 두 패 모두 flush 인 경우
-		else if (a == "flush")
+		else if (pedigree1 == Flush)
 		{
-			if (amax_pattern > bmax_pattern)
-				winner = "player1";
-			else if (amax_pattern < bmax_pattern)
-				winner = "player2";
-			else if (amax_pattern == bmax_pattern)
+			if (one.getPMax() > two.getPMax())
+				winner = &one;
+			else if (one.getPMax() < two.getPMax())
+				winner = &two;
+			else if (one.getPMax() == two.getPMax())
 			{
-				if(amax_number > bmax_number)
-					winner = "player1";
-				else if (amax_number < bmax_number)
-					winner = "player2";
-			}		
+				if (one.getNMax() > two.getNMax())
+					winner = &one;
+				else if (one.getNMax() < two.getNMax())
+					winner = &two;
+			}
 		}
 
 		// 두 패 모두 full house 인 경우
-		else if (a == "fullhouse")
+		else if (pedigree1 == Full_house)
 		{
-			if (amax_number > bmax_number)
-				winner = "player1";
-			if (amax_number < bmax_number)
-				winner = "player2";
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			if (one.getNMax() < two.getNMax())
+				winner = &two;
 		}
 
 		//두 패 모두 four card 인 경우
-		else if (a == "four_card")
+		else if (pedigree1 == Four_card)
 		{
-			if (amax_number > bmax_number)
-				winner = "player1";
-			else if (amax_number < bmax_number)
-				winner = "player2";
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() < two.getNMax())
+				winner = &two;
 		}
 
 		//두 패 모두 straight flush 인 경우
-		else if (a == "straight_flush")
+		else if (pedigree1 == Straight_flush)
 		{
-		    if (amax_number > bmax_number)
-			    winner = "player1";
-		    else if (amax_number < bmax_number)
-			    winner = "player2";
-		    else if (amax_number == bmax_number) 
-		    {
-			    if (amax_pattern > bmax_pattern)
-				    winner = "player1";
-				else if (amax_pattern < bmax_pattern)
-					winner = "player2";
-		    }
-		}	
+			if (one.getNMax() > two.getNMax())
+				winner = &one;
+			else if (one.getNMax() < two.getNMax())
+				winner = &two;
+			else if (one.getNMax() == two.getNMax())
+			{
+				if (one.getPMax() > two.getPMax())
+					winner = &one;
+				else if (one.getPMax() < two.getPMax())
+					winner = &two;
+			}
+		}
 	}
-		return winner;
+	return winner;
+}
+
+Player* checkWinner(Player member[],Player &dealer)
+{
+	Player* temp=&member[0];
+	int i;
+
+	for(i=0;member[i].checkSurvivor()==true;i++)
+		temp = &member[i];
+
+	i--;
+
+	for (; i < 5; i++)
+	{	if(member[i].checkPlayer()==true)
+			temp = pchecking((*temp), member[i], dealer);
+	}
+	return temp;
 }

@@ -7,7 +7,7 @@ int main()
 {
 	init(); //창 크기와 제목 설정 함수
 
-	Player member[5] = { {"플레이어"}, {"진혁"},{"도영 "},{"정훈 "},{"강민"} }, dealer; // member[0]가 플레이어
+	Player member[5] = { {"플레이어"}, {"진혁"},{"도영"},{"정훈"},{"강민"} }, dealer; // member[0]가 플레이어
 	string Pattern[4] = { "Clover", "Heart", "Diamond", "Spade" };
 	string Number[13] = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King","Ace"};
 
