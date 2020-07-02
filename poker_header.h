@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
@@ -60,13 +61,13 @@ public:
 	bool checkPlayer(); //살아있는 플레이어 체크
 	int getMoney();
 	void inputBet(int& totalBet, int& betMoney); // 리더의 배팅 금액 입력.
-	void playerDie(int& gambler, int dieMoney); // play가 false로 바뀜.
-	void leaderBet(int& totalMoney, int& gamlber, int dieMoney, int& betMoney, int nowBet, int turn, Player member[], Player& dealer);
+	void playerDie(int& gambler); // play가 false로 바뀜.
+	void leaderBet(int& totalMoney, int& gamlber, int& betMoney, int nowBet, int turn, Player member[], Player& dealer);
 	void doubleBet(int& betMoney, int& totalBet);
-	void allMoney(int& betMoney, int& totalBet);
+	void allMoney(int& betMoney, int& totalBet, int& gambler);
 	bool canBet(int betMoney);
 	void halfBet(int& betMoney, int& totalBet);
-	void dieAllMoney(int& totalMoney);
+	void dieAllMoney(int& totalMoney, int& gambler);
 	bool nowPlay();
 	bool checkSurvivor();
 	void payBet(int betMoney);
@@ -75,7 +76,7 @@ public:
 	void returnPlay();
 	void resetUsed();
 	int returnUsed();
-	void call(int& betMoney, int& totalMoney);
+	void call(int& betMoney, int& totalMoney);//,int &pastChoice);
 	void setCardSR(int R, int S, int now);
 	void setMax(int maxP, int maxN);
 	card* getCard();
@@ -84,6 +85,10 @@ public:
 	int getNMax();
 	int getPMax();
 	void winnerMoney(int& totalBet);
+	void setDieMoney(int die);
+	int getDieMoney();
+	void zeroMoney();
+	bool getRetire();
 private:
 	int used; // 받은 카드 갯수
 	int gameMoney;
@@ -93,6 +98,8 @@ private:
 	string name;
 	int maxPattern; //max pattern
 	int maxNumber; //max number
+	int dieMoney;
+	bool retire;
 };
 
 //-----------------------이도영
@@ -144,8 +151,8 @@ void playGame(Player member[], Player& gambler);
 int checkCard();
 void choiceBet(Player member[], int& gambler, int leader, int& totalBet, Player& dealer, const int turn);
 int choiceLeader(Player member[], const int gambler); // 가장 금액 높은 사람이 첫 배팅 리더
-void choiceFollower(Player member[], int& betMoney, int& totalBet, int& gambler, int& bet, int& nowBet, int& dieMoney, int& dieBet, Player& dealer, const int turn);
-void cant_Bet(Player& follwer, int& betMoney, int& gambler, int& totalBet, int dieMoney, Player member[]);
+void choiceFollower(Player member[], int& betMoney, int& totalBet, int& gambler, int& bet, int& nowBet, int& dieBet, Player& dealer, const int turn);
+void cant_Bet(Player& follwer, int& betMoney, int& gambler, int& totalBet, Player member[], int& nowBet);
 void resetGame(Player member);
 void checkDie(Player member[], int& gambler);
 void resetGame(Player member);
@@ -153,14 +160,13 @@ void endGame(Player member[], int& gambler);
 void reGame(Player member[], Player& delaer);
 void resultantPlate(Player member[]);
 void showCoinAll(Player member[]);
-
+void interBetting();
 
 //--------------------------범진혁
-void arrsort(int R[], int a);
+void arrsort(int R[], int S[], int a);
 void shuffle(Player member[], Player& dealer);
 Player* pchecking(Player& one, Player& two, Player& dealer);
 int rating(string pedigree);
-void checkFamilyTree(Player member[], int R0[], int R1[], int R2[], int R3[], int R4[], int R5[], int num);
 int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]);
 int Bpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]);
 int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]);

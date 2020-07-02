@@ -308,10 +308,10 @@ int probabli_Leader(int pedigree,int &betMoney,Player nowPlay)
 int probabli_Cant()
 {
 	int temp;
-	temp = rand() % 2;
+	temp = rand() % 8;
 
-	if (temp == 1)
-		return 1;
-	else
+	if (temp == 0)
 		return 2;
+	else
+		return 1;
 }
