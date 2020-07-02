@@ -128,22 +128,27 @@ void shuffle()
 }
 
 // 배열 R 정렬
-void arrsort(int R[], int S[], int a)
+void arrsort(int R[],int S[], int a)
 {
+    int temp1,temp2;
     bool swapped = false;
     do
     {
         // 1 pass of the bubble sort
         swapped = false;
-        for (int i = 0; i < a; i++)
+        for (int i = 0; i < a-1; i++)
         {
             if (R[i] > R[i + 1])
             {
-                int temp = R[i];
+                temp1 = R[i];
+                temp2 = S[i];
                 R[i] = R[i + 1];
-                R[i + 1] = temp;
+                S[i] = S[i + 1];
+                R[i + 1] = temp1;
+                S[i + 1] = temp2;
                 swapped = true;
             }
         }
     } while (swapped == true);
 }
+
