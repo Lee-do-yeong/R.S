@@ -44,7 +44,7 @@ void shuffle(Player member[], Player& dealer)
         dealer.setCardSR(R0[i], S0[i], i);
     }
 
-    //cout << "De : " << dealer.numGetCard(0) << " " << dealer.patGetCard(0) << endl << "De : " << dealer.numGetCard(1) << " " << dealer.patGetCard(1) << endl;
+
     //플레이어 1 카드 2장
     for (int i = 5; i < 7 && member[0].getRetire() == false; i++)
     {

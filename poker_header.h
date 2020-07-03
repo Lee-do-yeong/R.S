@@ -62,7 +62,7 @@ public:
 	int getMoney();
 	void inputBet(int& totalBet, int& betMoney); // 리더의 배팅 금액 입력.
 	void playerDie(int& gambler); // play가 false로 바뀜.
-	void leaderBet(int& totalMoney, int& gamlber, int& betMoney, int nowBet, int turn, Player member[], Player& dealer);
+	void leaderBet(int& totalMoney, int& gamlber, int& betMoney, int nowBet, int turn, Player member[], Player& dealer,int &bet);
 	void doubleBet(int& betMoney, int& totalBet);
 	void allMoney(int& betMoney, int& totalBet, int& gambler);
 	bool canBet(int betMoney);
@@ -74,23 +74,24 @@ public:
 	string getName();
 	void retireGame();
 	void returnPlay();
-	void resetUsed();
-	int returnUsed();
+
 	void call(int& betMoney, int& totalMoney);//,int &pastChoice);
 	void setCardSR(int R, int S, int now);
 	void setMax(int maxP, int maxN);
+	void setMax(int maxP, int maxN, int maxP2, int maxN2);
 	card* getCard();
 	int numGetCard(int num);
 	int patGetCard(int num);
 	int getNMax();
+	int getNMax2();
 	int getPMax();
+	int getPMax2();
 	void winnerMoney(int& totalBet);
 	void setDieMoney(int die);
 	int getDieMoney();
 	void zeroMoney();
 	bool getRetire();
 private:
-	int used; // 받은 카드 갯수
 	int gameMoney;
 	card myCard[5]; // 딜러 때문에 크기 5로 변경
 	bool play; //이번 판 플레이가 제한된 경우 false로 변경
@@ -98,6 +99,8 @@ private:
 	string name;
 	int maxPattern; //max pattern
 	int maxNumber; //max number
+	int maxPattern2;
+	int maxNumber2;
 	int dieMoney;
 	bool retire;
 };
@@ -122,7 +125,7 @@ void playerCard(int x, int y);
 void Print_result(Player& winner, Player& dealer);
 void printOrder(int result);
 //----
-void showDealerCard(card dealerCard[], int& num1, int& j, Player& play);
+void showDealerCard(card dealerCard[], int& num1, int& j,Player member[]);
 void interCall();
 void interDie();
 void interDouble();
@@ -139,25 +142,23 @@ void nowPlayName(string name);
 void showObli();
 void showSentence(string a, int x, int y);
 int bettingLeaderChoice();
-void checkStatus(Player member[]);
+void checkStatus(Player member[], int& gambler);
 void PrintMCard(int x, int y, card Player[]);
 void printAll(Player member[]);
 void Print_result(Player& winner, Player& dealer);
 int bettingCantChoice();
 void computaTurn(Player member[], int nowBet);
 //-------------------------- 김강민
-void obliBet(Player member[], int& totalBet);
+void obliBet(Player member[], int& totalBet,int &gambler);
 void playGame(Player member[], Player& gambler);
-int checkCard();
 void choiceBet(Player member[], int& gambler, int leader, int& totalBet, Player& dealer, const int turn);
 int choiceLeader(Player member[], const int gambler); // 가장 금액 높은 사람이 첫 배팅 리더
-void choiceFollower(Player member[], int& betMoney, int& totalBet, int& gambler, int& bet, int& nowBet, int& dieBet, Player& dealer, const int turn);
-void cant_Bet(Player& follwer, int& betMoney, int& gambler, int& totalBet, Player member[], int& nowBet);
-void resetGame(Player member);
+void choiceFollower(Player member[], int& betMoney, int& totalBet, int& gambler, int& bet, int& nowBet, Player& dealer, const int turn);
+void cant_Bet(Player& follwer, int& betMoney, int& gambler, int& totalBet, Player member[], int& nowBet, int& bet,Player &dealer,int turn);
 void checkDie(Player member[], int& gambler);
-void resetGame(Player member);
+void resetGame(Player &member);
 void endGame(Player member[], int& gambler);
-void reGame(Player member[], Player& delaer);
+int reGame(Player member[],Player &dealer);
 void resultantPlate(Player member[]);
 void showCoinAll(Player member[]);
 void interBetting();
@@ -170,7 +171,7 @@ int rating(string pedigree);
 int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]);
 int Bpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]);
 int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]);
-Player* checkWinner(Player member[], Player& dealer);
+Player* checkWinner(Player member[], Player& dealer, int gambler);
 
 //-----------------------임뭐시기
 int probabli(int pedigree);
