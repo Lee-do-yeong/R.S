@@ -14,3 +14,4 @@ int card::getS()
 {
 	return S;
 }
+
