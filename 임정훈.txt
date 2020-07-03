@@ -1,3 +1,0 @@
-내용
-
-#include <iostream>
