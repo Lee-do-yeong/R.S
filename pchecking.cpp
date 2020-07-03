@@ -46,8 +46,22 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				if (one.getPMax() <= two.getPMax())
+				else if (one.getPMax() <= two.getPMax())
 					winner = &two;
+				else if (one.getPMax() == two.getPMax())
+				{
+					if (one.getNMax2() > two.getNMax2())
+						winner = &one;
+					else if (one.getNMax2() < two.getNMax2())
+						winner = &two;
+					else if (one.getNMax2() == two.getNMax2())
+					{
+						if (one.getPMax2() > two.getPMax2())
+							winner = &one;
+						else if (one.getPMax2() <= two.getPMax2())
+							winner = &two;
+					}
+				}
 			}
 		}
 
@@ -62,8 +76,22 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 			{
 				if (one.getPMax() > two.getPMax())
 					winner = &one;
-				if (one.getPMax() <= two.getPMax())
+				if (one.getPMax() < two.getPMax())
 					winner = &two;
+				if (one.getPMax() == two.getPMax())
+				{
+					if (one.getNMax2() > two.getNMax2())
+						winner = &one;
+					if (one.getNMax2() < two.getNMax2())
+						winner = &two;
+					if (one.getNMax2() == two.getNMax2())
+					{
+						if (one.getPMax2() > two.getPMax2())
+							winner = &one;
+						if (one.getPMax2() <= two.getPMax2())
+							winner = &two;
+					}
+				}
 			}
 		}
 
@@ -145,19 +173,26 @@ Player* pchecking(Player& one,Player &two,Player &dealer)
 	return winner;
 }
 
-Player* checkWinner(Player member[],Player &dealer)
+Player* checkWinner(Player member[],Player &dealer,int gambler)
 {
 	Player* temp=&member[0];
 	int i;
 
-	for(i=0;member[i].checkSurvivor()==true;i++)
-		temp = &member[i];
+	for (i = 0; member[i].checkSurvivor() == true; i++);
+	
+	temp = &member[i];
 
-	i--;
+	
 
-	for (; i < 5; i++)
-	{	if(member[i].checkPlayer()==true)
-			temp = pchecking((*temp), member[i], dealer);
+
+	for (int k=0; k < 5; k++)
+	{
+		if (member[k].checkSurvivor() == false)
+		{	
+			temp = pchecking((*temp), member[k], dealer);
+			//cout << endl;
+			//cout << k<<" "<< member[k].getNMax() << " " << member[k].getPMax() << " " << member[k].getNMax2() << " " << member[k].getPMax2() << endl;
+		}
 	}
 	return temp;
 }

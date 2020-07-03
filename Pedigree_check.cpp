@@ -16,8 +16,12 @@ int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]) // �
 	int ptr1, ptr2;
 	// 처음에 Pedigree를  High_card로 초기화
 	int Pedigree = High_card;
+	ptr1 = R[4];
+	ptr2 = S[4];
+	nowPlay.setMax(ptr1, ptr2);
+
 	// pair 체크
-	if (R[0] == R[1] || R[1] == R[2] || R[2] == R[3] || R[3] == R[4])
+	if ((R[0] == R[1]) || (R[1] == R[2]) || (R[2] == R[3]) || (R[3] == R[4]))
 	{
 		//one pair 검사
 		if ((R[0] == R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]))
@@ -26,58 +30,57 @@ int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]) // �
 			ptr1 = R[1];
 			if (S[1] > S[0])
 				ptr2 = S[1];
-			if (S[1] <= S[0])
+			if (S[1] < S[0])
 				ptr2 = S[0];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[1] == R[2]) && (R[0] != R[1]) && (R[2] != R[3]) && (R[3] != R[4]))
+		else if ((R[1] == R[2]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]))
 		{
 			Pedigree = One_pair;
 			ptr1 = R[2];
 			if (S[2] > S[1])
 				ptr2 = S[2];
-			if (S[2] <= S[1])
+			if (S[2] < S[1])
 				ptr2 = S[1];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if (R[2] == R[3] && R[0] != R[1] && R[1] != R[2] && R[3] != R[4])
+		else if ((R[2] == R[3]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[4]))
 		{
 			Pedigree = One_pair;
 			ptr1 = R[3];
 			if (S[2] > S[3])
 				ptr2 = S[2];
-			if (S[2] <= S[3])
+			if (S[2] < S[3])
 				ptr2 = S[3];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if (R[3] == R[4] && R[0] != R[1] && R[1] != R[2] && R[2] != R[3])
+		else if ((R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[4]))
 		{
 			Pedigree = One_pair;
 			ptr1 = R[4];
-			ptr2 = 0;
 			if (S[3] > S[4])
 				ptr2 = S[3];
-			if (S[3] <= S[4])
+			if (S[3] < S[4])
 				ptr2 = S[4];
 			nowPlay.setMax(ptr1, ptr2);
 		}
 
 		// two pair  검사
-		else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3] != R[4]))
+		else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3]) && (R[3] != R[4]))
 		{
 			Pedigree = Two_pair;
 			ptr1 = R[3];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2] != R[4]))
+		else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2]) && (R[2] != R[4]))
 		{
 			Pedigree = Two_pair;
 			ptr1 = R[4];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[1] != R[3]))
+		else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[2]) && (R[2] != R[4]))
 		{
 			Pedigree = Two_pair;
 			ptr1 = R[4];
@@ -86,21 +89,21 @@ int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]) // �
 		}
 
 		//triple 체크
-		else if ((R[0] == R[1] == R[2]) && (R[2] != R[3] != R[4]))
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] != R[3]) && (R[3] != R[4]))
 		{
 			Pedigree = Triple;
 			ptr1 = R[2];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[1] == R[2] == R[3]) && (R[0] != R[3] != R[4]))
+		else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[0] != R[3]) && (R[3] != R[4]))
 		{
 			Pedigree = Triple;
 			ptr1 = R[3];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[2] == R[3] == R[4]) && (R[0] != R[1] != R[4]))
+		else if ((R[2] == R[3]) && (R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[4]))
 		{
 			Pedigree = Triple;
 			ptr1 = R[4];
@@ -109,14 +112,14 @@ int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]) // �
 		}
 
 		//full house 체크
-		else if ((R[0] == R[1] == R[2]) && (R[3] == R[4]))
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[3] == R[4]) && (R[2] != R[4]))
 		{
 			Pedigree = Full_house;
 			ptr1 = R[2];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[2] == R[3] == R[4]) && (R[0] == R[1]))
+		else if ((R[2] == R[3]) && (R[3] == R[4]) && (R[0] == R[1]) && (R[1] != R[4]))
 		{
 			Pedigree = Full_house;
 			ptr1 = R[4];
@@ -125,47 +128,46 @@ int aPedigree_check(Player& nowPlay, card dealerCard[], card playerCard[]) // �
 		}
 
 		//four card 체크
-		else if ((R[0] == R[1] == R[2] == R[3]) || (R[1] == R[2] == R[3] == R[4]))
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] == R[3]))
 		{
 			Pedigree = Four_card;
-			if (R[0] == R[1] == R[2] == R[3])
-				ptr1 = R[3];
-			if (R[1] == R[2] == R[3] == R[4])
-				ptr1 = R[4];
+			ptr1 = R[3];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[3] == R[4]))
+		{
+			ptr1 = R[4];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
 	}
-	//
-	//// flush 체크 (5카드 전부 같은 문양)
-	//if ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4]))
-	//{
-	//	Pedigree = Flush;
-	//	ptr2 = S[4];
-	//	ptr1 = R[4];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
 
-	//// straight 체크
-	//if ((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1))
-	//{
-	//	Pedigree = Straight;
-	//	ptr1 = R[4];
-	//	ptr2 = S[4];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
-
-	////straight flush 체크 
-	//if (((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4])))
-	//{
-	//	Pedigree = Straight_flush;
-	//	ptr1 = R[4];
-	//	ptr2 = S[4];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
-	//if (nowPlay.checkPlayer() == false)
+	// flush 체크 (5카드 전부 같은 문양)
+	if ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4]))
 	{
-		Pedigree = Die;
+		Pedigree = Flush;
+		ptr2 = S[4];
+		ptr1 = R[4];
+		nowPlay.setMax(ptr1, ptr2);
+	}
+
+	// straight 체크
+	if ((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1))
+	{
+		Pedigree = Straight;
+		ptr1 = R[4];
+		ptr2 = S[4];
+		nowPlay.setMax(ptr1, ptr2);
+	}
+
+	//straight flush 체크 
+	if (((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4])))
+	{
+		Pedigree = Straight_flush;
+		ptr1 = R[4];
+		ptr2 = S[4];
+		nowPlay.setMax(ptr1, ptr2);
 	}
 
 	return Pedigree;
@@ -184,258 +186,15 @@ int Bpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 
 	int pedigree = High_card;
 
+	ptr1 = R[5];
+	ptr2 = S[5];
+	nowPlay.setMax(ptr1, ptr2);
+
 	// pair!
 	if ((R[0] == R[1]) || (R[1] == R[2]) || (R[2] == R[3]) || (R[3] == R[4]) || (R[4] == R[5]))
 	{
 		// one_pair
-		if ((R[0] == R[1]) && (R[1] != R[2] != R[3] != R[4] != R[5]))
-		{
-			pedigree = One_pair;
-			ptr1 = R[1];
-			if (S[1] > S[0])
-				ptr2 = S[1];
-			if (S[1] <= S[0])
-				ptr2 = S[0];
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[1] == R[2]) && (R[0] != R[2] != R[3] != R[4] != R[5]))
-		{
-			pedigree = One_pair;
-			ptr1 = R[2];
-			if (S[2] > S[1])
-				ptr2 = S[2];
-			if (S[2] <= S[1])
-				ptr2 = S[1];
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[2] == R[3]) && (R[0] != R[1] != R[3] != R[4] != R[5]))
-		{
-			pedigree = One_pair;
-			ptr1 = R[3];
-			if (S[3] > S[2])
-				ptr2 = S[3];
-			if (S[3] <= S[2])
-				ptr2 = S[2];
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[3] == R[4]) && (R[0] != R[1] != R[2] != R[4] != R[5]))
-		{
-			pedigree = One_pair;
-			ptr1 = R[4];
-			if (S[4] > S[3])
-				ptr2 = S[4];
-			if (S[4] <= S[3])
-				ptr2 = S[3];
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[4] == R[5]) && (R[0] != R[1] != R[2] != R[3] != R[5]))
-		{
-			pedigree = One_pair;
-			ptr1 = R[5];
-			if (S[5] > S[4])
-				ptr2 = S[5];
-			if (S[5] <= S[4])
-				ptr2 = S[4];
-			nowPlay.setMax(ptr1, ptr2);
-		}
-
-		// two_pair
-		else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3] != R[4] != R[5]))
-		{
-			pedigree = Two_pair;
-			ptr1 = R[3];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2] != R[4] != R[5]))
-		{
-			pedigree = Two_pair;
-			ptr1 = R[4];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[0] == R[1]) && (R[4] == R[5]) && (R[1] != R[2] != R[3] != R[5]))
-		{
-			pedigree = Two_pair;
-			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[2] != R[4] != R[5]))
-		{
-			pedigree = Two_pair;
-			ptr1 = R[4];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[1] == R[2]) && (R[4] == R[5]) && (R[0] != R[2] != R[3] != R[5]))
-		{
-			pedigree = Two_pair;
-			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[2] == R[3]) && (R[4] == R[5]) && (R[0] != R[1] != R[3] != R[5]))
-		{
-			pedigree = Two_pair;
-			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-
-		// Triple
-		else if ((R[0] == R[1] == R[2]) && (R[2] != R[3] != R[4] != R[5]))
-		{
-			pedigree = Triple;
-			ptr1 = R[2];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[1] == R[2] == R[3]) && (R[0] != R[3] != R[4] != R[5]))
-		{
-			pedigree = Triple;
-			ptr1 = R[3];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[2] == R[3] == R[4]) && (R[0] != R[1] != R[4] != R[5]))
-		{
-			pedigree = Triple;
-			ptr1 = R[4];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[3] == R[4] == R[5]) && (R[0] != R[1] != R[2] != R[5]))
-		{
-			pedigree = Triple;
-			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-
-		//full house
-		else if ((R[0] == R[1] == R[2]) && (R[3] == R[4]) && (R[2] != R[4] != R[5]))
-		{
-			pedigree = Full_house;
-			ptr1 = R[2];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[0] == R[1] == R[2]) && (R[4] == R[5]) && (R[2] != R[3] != R[5]))
-		{
-			pedigree = Full_house;
-			ptr1 = R[2];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if ((R[1] == R[2] == R[3]) && (R[4] == R[5]) && (R[0] != R[3] != R[5]))
-		{
-			pedigree = Full_house;
-			ptr1 = R[3];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-
-		// four card
-		else if (R[0] == R[1] == R[2] == R[3])
-		{
-			pedigree = Four_card;
-			ptr1 = R[3];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if (R[1] == R[2] == R[3] == R[4])
-		{
-			pedigree = Four_card;
-			ptr1 = R[4];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-		else if (R[2] == R[3] == R[4] == R[5])
-		{
-			pedigree = Four_card;
-			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
-		}
-	}
-
-	////straight
-	//if ((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1))
-	//{
-	//	pedigree = Straight;
-	//	ptr1 = R[4];
-	//	ptr2 = S[4];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
-	//if ((R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1))
-	//{
-	//	pedigree = Straight;
-	//	ptr1 = R[5];
-	//	ptr2 = S[5];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
-
-	////flush
-	//if ((S[0] == S[1] == S[2] == S[3] == S[4]) || (S[1] == S[2] == S[3] == S[4] == S[5]))
-	//{
-	//	if (S[0] == S[1] == S[2] == S[3] == S[4])
-	//	{
-	//		pedigree = Flush;
-	//		ptr1 = R[4];
-	//		ptr2 = S[4];
-	//		nowPlay.setMax(ptr1, ptr2);
-	//	}
-	//	if (S[1] == S[2] == S[3] == S[4] == S[5])
-	//	{
-	//		pedigree = Flush;
-	//		ptr1 = R[5];
-	//		ptr2 = S[5];
-	//		nowPlay.setMax(ptr1, ptr2);
-	//	}
-	//}
-
-	//// straight flush
-	//if (((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && (S[0] == S[1] == S[2] == S[3] == S[4]))
-	//{
-	//	pedigree = Straight_flush;
-	//	ptr1 = R[4];
-	//	ptr2 = S[4];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
-	//if (((R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1)) && (S[1] == S[2] == S[3] == S[4] == S[5]))
-	//{
-	//	pedigree = Straight_flush;
-	//	ptr1 = R[5];
-	//	ptr2 = S[5];
-	//	nowPlay.setMax(ptr1, ptr2);
-	//}
-	if (nowPlay.checkPlayer() == false)
-	{
-		pedigree = Die;
-	}
-	return pedigree;
-}
-
-// 세번째 배팅용 족보 검사 함수(카드7장)
-int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
-{
-	int R[7] = { dealerCard[0].getR(),dealerCard[1].getR(),dealerCard[2].getR(),dealerCard[3].getR(),dealerCard[4].getR(),playerCard[0].getR(),playerCard[1].getR() };
-	int S[7] = { dealerCard[0].getS(),dealerCard[1].getS(),dealerCard[2].getS(),dealerCard[3].getS(),dealerCard[4].getS(),playerCard[0].getS(),playerCard[1].getS() };
-	int ptr1, ptr2;
-
-	int pedigree = High_card;
-	arrsort(R, S,7);
-
-	ptr1 = R[6];
-	ptr2 = S[6];
-	nowPlay.setMax(ptr1, ptr2);
-
-	//pair
-	if ((R[0] == R[1]) || (R[1] == R[2]) || (R[2] == R[3]) || (R[3] == R[4]) || (R[4] == R[5]) || (R[5] == R[6]))
-	{
-		// one pair
-		if ((R[0] == R[1]) && (R[1] != R[2]) &&(R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		if ((R[0] == R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]))
 		{
 			pedigree = One_pair;
 			ptr1 = R[1];
@@ -445,7 +204,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 				ptr2 = S[0];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[1] == R[2]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		else if ((R[1] == R[2]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]))
 		{
 			pedigree = One_pair;
 			ptr1 = R[2];
@@ -455,7 +214,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 				ptr2 = S[1];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[2] == R[3]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		else if ((R[2] == R[3]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]))
 		{
 			pedigree = One_pair;
 			ptr1 = R[3];
@@ -465,7 +224,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 				ptr2 = S[2];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		else if ((R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]))
 		{
 			pedigree = One_pair;
 			ptr1 = R[4];
@@ -475,7 +234,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 				ptr2 = S[3];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[4] == R[5]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]) && (R[5] != R[6]))
+		else if ((R[4] == R[5]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]))
 		{
 			pedigree = One_pair;
 			ptr1 = R[5];
@@ -485,91 +244,427 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 				ptr2 = S[4];
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[5] == R[6]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[6]))
-		{
-			pedigree = One_pair;
-			ptr1 = R[6];
-			if (S[6] > S[5])
-				ptr2 = S[6];
-			if (S[6] < S[5])
-				ptr2 = S[5];
-			nowPlay.setMax(ptr1, ptr2);
-		}
 
-		// two pair
-		else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		// two_pair
+		else if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[3];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
 		}
-		else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[4];
 			ptr2 = 0;
 			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[0] == R[1]) && (R[4] == R[5]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]))
+		{
+			pedigree = Two_pair;
+			ptr1 = R[5];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]))
+		{
+			pedigree = Two_pair;
+			ptr1 = R[4];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[1] == R[2]) && (R[4] == R[5]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]))
+		{
+			pedigree = Two_pair;
+			ptr1 = R[5];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[2] == R[3]) && (R[4] == R[5]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[5]))
+		{
+			pedigree = Two_pair;
+			ptr1 = R[5];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+
+		// Triple
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]))
+		{
+			pedigree = Triple;
+			ptr1 = R[2];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[0] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]))
+		{
+			pedigree = Triple;
+			ptr1 = R[3];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[2] == R[3]) && (R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[4]) && (R[4] != R[5]))
+		{
+			pedigree = Triple;
+			ptr1 = R[4];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[3] == R[4]) && (R[4] == R[5]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[5]))
+		{
+			pedigree = Triple;
+			ptr1 = R[5];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+
+		//full house
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[3] == R[4]) && (R[2] != R[4]) && (R[4] != R[5]))
+		{
+			pedigree = Full_house;
+			ptr1 = R[2];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[4] == R[5]) && (R[2] != R[3]) && (R[3] != R[5]))
+		{
+			pedigree = Full_house;
+			ptr1 = R[2];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[4] == R[5]) && (R[0] != R[3]) && (R[3] != R[5]))
+		{
+			pedigree = Full_house;
+			ptr1 = R[3];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+
+		// four card
+		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] == R[3]))
+		{
+			pedigree = Four_card;
+			ptr1 = R[3];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[1] == R[2]) && (R[2] == R[3]) && (R[3] == R[4]))
+		{
+			pedigree = Four_card;
+			ptr1 = R[4];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+		else if ((R[2] == R[3]) && (R[3] == R[4]) && (R[4] == R[5]))
+		{
+			pedigree = Four_card;
+			ptr1 = R[5];
+			ptr2 = 0;
+			nowPlay.setMax(ptr1, ptr2);
+		}
+	}
+
+	//straight
+	if ((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1))
+	{
+		pedigree = Straight;
+		ptr1 = R[4];
+		ptr2 = S[4];
+		nowPlay.setMax(ptr1, ptr2);
+	}
+	if ((R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1))
+	{
+		pedigree = Straight;
+		ptr1 = R[5];
+		ptr2 = S[5];
+		nowPlay.setMax(ptr1, ptr2);
+	}
+
+	// straight flush
+	if (((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && (S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4]))
+	{
+		pedigree = Straight_flush;
+		ptr1 = R[4];
+		ptr2 = S[4];
+		nowPlay.setMax(ptr1, ptr2);
+	}
+	if (((R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1)) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4]) && (S[4] == S[5]))
+	{
+		pedigree = Straight_flush;
+		ptr1 = R[5];
+		ptr2 = S[5];
+		nowPlay.setMax(ptr1, ptr2);
+	}
+
+	arrsort(S, R, 6);
+
+	//flush
+	if ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4]))
+	{
+		pedigree = Flush;
+		ptr1 = R[4];
+		ptr2 = S[4];
+		nowPlay.setMax(ptr1, ptr2);
+
+		if ((S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4]) && (S[4] == S[5]))
+		{
+			pedigree = Flush;
+			ptr1 = R[5];
+			ptr2 = S[5];
+			nowPlay.setMax(ptr1, ptr2);
+		}
+	}
+
+	return pedigree;
+}
+
+// 세번째 배팅용 족보 검사 함수(카드7장)
+int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
+{
+	int R[7] = { dealerCard[0].getR(),dealerCard[1].getR(),dealerCard[2].getR(),dealerCard[3].getR(),dealerCard[4].getR(),playerCard[0].getR(),playerCard[1].getR() };
+	int S[7] = { dealerCard[0].getS(),dealerCard[1].getS(),dealerCard[2].getS(),dealerCard[3].getS(),dealerCard[4].getS(),playerCard[0].getS(),playerCard[1].getS() };
+	int ptr1, ptr2;
+	int ptr3 = 0;
+	int ptr4 = 0;
+	int pedigree = High_card;
+	arrsort(R, S,7);
+
+	ptr1 = R[6];
+	ptr2 = S[6];
+	nowPlay.setMax(ptr1, ptr2,ptr3,ptr4);
+
+	if ((R[0] == R[1]) || (R[1] == R[2]) || (R[2] == R[3]) || (R[3] == R[4]) || (R[4] == R[5]) || (R[5] == R[6]))
+	{
+		// one pair
+		if ((R[0] == R[1]) && (R[1] != R[2])&& (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = One_pair;
+			ptr1 = R[1];
+			ptr3 = R[6];
+			ptr4 = S[6];
+			if (S[1] > S[0])
+				ptr2 = S[1];
+			if (S[1] < S[0])
+				ptr2 = S[0];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+		else if ((R[1] == R[2]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = One_pair;
+			ptr1 = R[2];
+			ptr3 = R[6];
+			ptr4 = S[6];
+			if (S[2] > S[1])
+				ptr2 = S[2];
+			if (S[2] < S[1])
+				ptr2 = S[1];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+		else if ((R[2] == R[3]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = One_pair;
+			ptr1 = R[3];
+			ptr3 = R[6];
+			ptr4 = S[6];
+			if (S[3] > S[2])
+				ptr2 = S[3];
+			if (S[3] < S[2])
+				ptr2 = S[2];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+		else if ((R[3] == R[4]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = One_pair;
+			ptr1 = R[4];
+			ptr3 = R[6];
+			ptr4 = S[6];
+			if (S[4] > S[3])
+				ptr2 = S[4];
+			if (S[4] < S[3])
+				ptr2 = S[3];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+		else if ((R[4] == R[5]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = One_pair;
+			ptr1 = R[5];
+			ptr3 = R[6];
+			ptr4 = S[6];
+			if (S[5] > S[4])
+				ptr2 = S[5];
+			if (S[5] < S[4])
+				ptr2 = S[4];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+		else if ((R[5] == R[6]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[6]))
+		{
+			pedigree = One_pair;
+			ptr1 = R[6];
+			ptr3 = R[4];
+			ptr4 = S[4];
+			if (S[6] > S[5])
+				ptr2 = S[6];
+			if (S[6] < S[5])
+				ptr2 = S[5];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+
+		// two pair
+		if ((R[0] == R[1]) && (R[2] == R[3]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = Two_pair;
+			ptr1 = R[3];
+			if (S[3] > S[2])
+				ptr2 = S[3];
+			if (S[3] < S[2])
+				ptr2 = S[2];
+			ptr3 = R[1];
+			if (S[1] > S[0])
+				ptr4 = S[1];
+			if (S[1] < S[0])
+				ptr4 = S[0];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
+		}
+		else if ((R[0] == R[1]) && (R[3] == R[4]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		{
+			pedigree = Two_pair;
+			ptr1 = R[4];
+			if (S[4] > S[3])
+				ptr2 = S[4];
+			if (S[4] < S[3])
+				ptr2 = S[3];
+			ptr3 = R[1];
+			if (S[1] > S[0])
+				ptr4 = S[1];
+			if (S[1] < S[0])
+				ptr4 = S[0];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[0] == R[1]) && (R[4] == R[5]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]) && (R[5] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[5] > S[4])
+				ptr2 = S[5];
+			if (S[5] < S[4])
+				ptr2 = S[4];
+			ptr3 = R[1];
+			if (S[1] > S[0])
+				ptr4 = S[1];
+			if (S[1] < S[0])
+				ptr4 = S[0];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[0] == R[1]) && (R[5] == R[6]) && (R[1] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[6];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[6] > S[5])
+				ptr2 = S[6];
+			if (S[6] < S[5])
+				ptr2 = S[5];
+			ptr3 = R[1];
+			if (S[1] > S[0])
+				ptr4 = S[1];
+			if (S[1] < S[0])
+				ptr4 = S[0];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[1] == R[2]) && (R[3] == R[4]) && (R[0] != R[2]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[4];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[4] > S[3])
+				ptr2 = S[4];
+			if (S[4] < S[3])
+				ptr2 = S[3];
+			ptr3 = R[2];
+			if (S[2] > S[1])
+				ptr4 = S[2];
+			if (S[2] < S[1])
+				ptr4 = S[1];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[1] == R[2]) && (R[4] == R[5]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[5]) && (R[5] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[5] > S[4])
+				ptr2 = S[5];
+			if (S[5] < S[4])
+				ptr2 = S[4];
+			ptr3 = R[2];
+			if (S[2] > S[1])
+				ptr4 = S[2];
+			if (S[2] < S[1])
+				ptr4 = S[1];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[1] == R[2]) && (R[5] == R[6]) && (R[0] != R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[6];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[6] > S[5])
+				ptr2 = S[6];
+			if (S[6] < S[5])
+				ptr2 = S[5];
+			ptr3 = R[2];
+			if (S[2] > S[1])
+				ptr4 = S[2];
+			if (S[2] < S[1])
+				ptr4 = S[1];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[2] == R[3]) && (R[4] == R[5]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[5]) && (R[5] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[5];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[5] > S[4])
+				ptr2 = S[5];
+			if (S[5] < S[4])
+				ptr2 = S[4];
+			ptr3 = R[3];
+			if (S[3] > S[2])
+				ptr4 = S[3];
+			if (S[3] < S[2])
+				ptr4 = S[2];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[2] == R[3]) && (R[5] == R[6]) && (R[0] != R[1]) && (R[1] != R[3]) && (R[3] != R[4]) && (R[4] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[6];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[6] > S[5])
+				ptr2 = S[6];
+			if (S[6] < S[5])
+				ptr2 = S[5];
+			ptr3 = R[3];
+			if (S[3] > S[2])
+				ptr4 = S[3];
+			if (S[3] < S[2])
+				ptr4 = S[2];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 		else if ((R[3] == R[4]) && (R[5] == R[6]) && (R[0] != R[1]) && (R[1] != R[2]) && (R[2] != R[4]) && (R[4] != R[6]))
 		{
 			pedigree = Two_pair;
 			ptr1 = R[6];
-			ptr2 = 0;
-			nowPlay.setMax(ptr1, ptr2);
+			if (S[6] > S[5])
+				ptr2 = S[6];
+			if (S[6] < S[5])
+				ptr2 = S[5];
+			ptr3 = R[4];
+			if (S[4] > S[3])
+				ptr4 = S[4];
+			if (S[4] < S[3])
+				ptr4 = S[3];
+			nowPlay.setMax(ptr1, ptr2, ptr3, ptr4);
 		}
 
 		// triple
-		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] != R[3]) && (R[3] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
 		{
 			pedigree = Triple;
 			ptr1 = R[2];
@@ -606,7 +701,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 		}
 
 		//full house
-		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[3] == R[4]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
+		if ((R[0] == R[1]) && (R[1] == R[2]) && (R[3] == R[4]) && (R[2] != R[4]) && (R[4] != R[5]) && (R[5] != R[6]))
 		{
 			pedigree = Full_house;
 			ptr1 = R[2];
@@ -650,7 +745,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 		}
 
 		//four card
-		else if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] == R[3]))
+		if ((R[0] == R[1]) && (R[1] == R[2]) && (R[2] == R[3]))
 		{
 			pedigree = Four_card;
 			ptr1 = R[3];
@@ -681,21 +776,21 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 	}
 
 	//straight
-	if ((R[1] != R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1))
+	if ((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1))
 	{
 		pedigree = Straight;
 		ptr1 = R[4];
 		ptr2 = S[4];
 		nowPlay.setMax(ptr1, ptr2);
 	}
-	if ((R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1))
+	else if ((R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1))
 	{
 		pedigree = Straight;
 		ptr1 = R[5];
 		ptr2 = S[5];
 		nowPlay.setMax(ptr1, ptr2);
 	}
-	if ((R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1) && (R[6] == R[5] + 1))
+	else if ((R[3] == R[2] + 1) && (R[4] == R[3] + 1) && (R[5] == R[4] + 1) && (R[6] == R[5] + 1))
 	{
 		pedigree = Straight;
 		ptr1 = R[6];
@@ -704,7 +799,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 	}
 
 	//straight flush
-	if (((R[1] != R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4])))
+	if (((R[1] == R[0] + 1) && (R[2] == R[1] + 1) && (R[3] == R[2] + 1) && (R[4] == R[3] + 1)) && ((S[0] == S[1]) && (S[1] == S[2]) && (S[2] == S[3]) && (S[3] == S[4])))
 	{
 		pedigree = Straight_flush;
 		ptr1 = R[4];
@@ -780,9 +875,7 @@ int Cpedigree_check(Player& nowPlay, card dealerCard[], card playerCard[])
 		}
 	}
 	// 플레이어가 die 한 경우
-	if (nowPlay.checkPlayer() == false)
-	{
-		pedigree = Die;
-	}
+	//cout << nowPlay.getNMax() << " " << nowPlay.getPMax() << endl;
+
 	return pedigree;
 }

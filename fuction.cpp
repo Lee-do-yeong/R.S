@@ -371,22 +371,30 @@ int bettingNumber()
 
 void victoryPrint()
 {
-	gotoxy(80, 17); cout << "------------------------";
-	gotoxy(80, 18); cout << "|                       |";
-	gotoxy(80, 19); cout << "|      승리!!!!!!!      |";
-	gotoxy(80, 20); cout << "|                       |";
-	gotoxy(80, 21); cout << "------------------------";
-	introGame(); // 시작화면의 표시부분 함수
+	Sleep(14000);
+	setColor(WHITE, BLACK);
+	system("cls");
+	gotoxy(40, 17); cout << " ■        ■     ■■■     ■■■■■     ■■■■■      ■■■■      ■■■■      ■    ■     ";
+	gotoxy(40, 18); cout << "  ■      ■        ■       ■                 ■         ■      ■     ■     ■      ■  ■      ";
+	gotoxy(40, 19); cout << "   ■    ■         ■       ■                 ■         ■      ■     ■■■■         ■        ";
+	gotoxy(40, 20); cout << "    ■  ■          ■       ■                 ■         ■      ■     ■   ■          ■        ";
+	gotoxy(40, 21); cout << "      ■          ■■■     ■■■■■         ■          ■■■■      ■     ■        ■        ";
+	gotoxy(0, 40);
+	exit(1);
 }
 
 void defeatPrint()
 {
-	gotoxy(80, 17); cout << "------------------------";
-	gotoxy(80, 18); cout << "|                       |";
-	gotoxy(80, 19); cout << "|      패배!!!!!!!      |";
-	gotoxy(80, 20); cout << "|                       |";
-	gotoxy(80, 21); cout << "------------------------";
-	introGame(); // 시작화면의 표시부분 함수
+	Sleep(14000);
+	setColor(WHITE, BLACK);
+	system("cls");
+	gotoxy(40, 17); cout << "      ■■■■       ■■■■     ■■■■     ■■■■         ■         ■■■■■     ";
+	gotoxy(40, 18); cout << "      ■     ■      ■           ■           ■             ■  ■           ■         ";
+	gotoxy(40, 19); cout << "      ■      ■     ■■■■     ■■■■     ■■■■     ■■■■■         ■         ";
+	gotoxy(40, 20); cout << "      ■     ■      ■           ■           ■           ■      ■         ■         ";
+	gotoxy(40, 21); cout << "      ■■■■       ■■■■     ■           ■■■■     ■      ■         ■         ";
+	gotoxy(0, 40);
+	exit(1);
 }
 
 void picture(card dealerCard[],Player member[])
@@ -455,16 +463,20 @@ void picture(card dealerCard[],Player member[])
 	gameImage(member);
 }
 
-void showDealerCard(card dealerCard[],int &num1,int &j,Player &play) // int get =4, num1 =0, int j=0
+void showDealerCard(card dealerCard[],int &num1,int &j,Player member[]) // int get =4, num1 =0, int j=0
 {
 		int shape[4] = { 0,1,2,3}; //null, spade, diamond, heart, cluber
 		int number[13] = {2,3,4,5,6,7,8,9,10,11,12,13,1}; //null, 2~10, jack, queen, king, ace
 		setColor(GREEN, WHITE);
-		playerCard(35, 3);
-		playerCard(125, 3);
-		playerCard(35, 18);
-		playerCard(125, 18);
-		PrintMCard(80, 25, play.getCard());
+		if(member[2].getRetire()==false)
+			playerCard(35, 3);
+		if (member[3].getRetire() == false)
+			playerCard(125, 3);
+		if (member[1].getRetire() == false)
+			playerCard(35, 18);
+		if (member[4].getRetire() == false)
+			playerCard(125, 18);
+		PrintMCard(80, 25, member[0].getCard());
 		Sleep(1000);
 		setColor(GREEN, WHITE);
 
@@ -579,14 +591,10 @@ int choice_betting2(int &betMoney)
 {
 	int choice;
 	setColor(GREEN, WHITE);
-	gotoxy(84, 12);  cout << "캔트 베팅";
-	gotoxy(70, 13);  cout << "(현재 보유 돈이 베팅 금액보다 적습니다.)";
+
 	choice = bettingCantChoice();
 	betting_coin2(choice,betMoney);
-	gotoxy(84, 12);
-	cout << "                     ";
-	gotoxy(70, 13);
-	cout << "                                               ";
+
 
 	return choice;
 }
@@ -616,7 +624,7 @@ void betting_coin(int x,int &betMoney) //배팅 다이
 	}
 	else
 	{
-		interDie();
+	
 		setColor(GREEN, GREEN);
 		for (int i = 20; i < 24; i++)
 		{
@@ -755,11 +763,19 @@ int bettingLeaderChoice()
 
 }
 
-void checkStatus(Player member[])
+void checkStatus(Player member[],int &gambler)
 {
 	setColor(BLACK, WHITE);
 	for (int i = 0; i < 5; i++)
 	{
+		if (member[i].getMoney() == 0)
+		{
+			if (member[i].checkPlayer() == true)
+			{
+				member[i].zeroMoney();
+				gambler--;
+			}
+		}
 		if (member[i].getRetire() == true)
 		{
 			switch (i)
@@ -791,13 +807,50 @@ void checkStatus(Player member[])
 				cout << "[ 게임 오버 ]";
 			}
 		}
-		else if (member[i].getMoney() == 0)
-			member[i].zeroMoney();
-		else if (member[i].checkPlayer() == false || member[i].checkSurvivor()==true)
+		else if(member[i].checkSurvivor() == true)
 		{
 			switch (i)
 			{
 			case 0:
+				gotoxy(85, 42);
+				cout << "           ";
+				gotoxy(85, 42);
+				cout << "[ 다 이 ]";
+				break;
+			case 1: //진혁
+				gotoxy(14, 27);
+				cout << "           ";
+				gotoxy(14, 27);
+				cout << "[ 다 이 ]";
+				break;
+			case 2: //도영
+				gotoxy(14, 12);
+				cout << "            ";
+				gotoxy(14, 12);
+				cout << "[ 다 이 ]";
+				break;
+			case 3: // 정훈
+				gotoxy(154, 12);
+				cout << "            ";
+				gotoxy(154, 12);
+				cout << "[ 다 이 ]";
+				break;
+			case 4: // 강민
+				gotoxy(154, 27);
+				cout << "            ";
+				gotoxy(154, 27);
+				cout << "[ 다 이]";
+			}
+		}
+		else if (member[i].checkPlayer() == false)
+		{
+			switch (i)
+			{
+			case 0:
+				gotoxy(83, 42);
+				cout << "           ";
+				gotoxy(83, 42);
+				cout << "[ 베팅 불가 ]";
 				break;
 			case 1: //진혁
 				gotoxy(12, 27);
@@ -821,7 +874,7 @@ void checkStatus(Player member[])
 				gotoxy(152, 27);
 				cout << "            ";
 				gotoxy(152, 27);
-				cout << "[ 베팅 불가]";
+				cout << "[ 베팅 불가 ]";
 			}
 		}
 		else
@@ -829,6 +882,8 @@ void checkStatus(Player member[])
 			switch (i)
 			{
 			case 0:
+				gotoxy(83, 42);
+				cout << "            ";
 				break;
 			case 1: //진혁
 				gotoxy(12, 27);
@@ -858,16 +913,20 @@ void printAll(Player member[])//80 25 플레이어
 		switch (i)
 		{
 		case 1:
-			PrintMCard(35, 18, member[i].getCard());//진혁
+			if(member[i].getRetire()==false)
+				PrintMCard(35, 18, member[i].getCard());//진혁
 			break;
 		case 2:
-			PrintMCard(35, 3, member[i].getCard()); //도영
+			if (member[i].getRetire() == false)
+				PrintMCard(35, 3, member[i].getCard()); //도영
 			break;
 		case 3:
-			PrintMCard(125, 3, member[i].getCard());//정훈
+			if (member[i].getRetire() == false)
+				PrintMCard(125, 3, member[i].getCard());//정훈
 			break;
 		case 4:
-			PrintMCard(125, 18, member[i].getCard());//강민
+			if (member[i].getRetire() == false)
+				PrintMCard(125, 18, member[i].getCard());//강민
 		}
 	}
 }
@@ -936,6 +995,7 @@ void PrintMCard(int x, int y, card playerCard[])
 void Print_result(Player &winner,Player &dealer)
 {
 	string Play_name[5] = { "플레이어", "진혁", "도영", "정훈" , "강민" };
+	setColor(GREEN, WHITE);
 	int x = 80, y = 15;
 	gotoxy(x, y );     cout << winner.getName()<< " : "; printOrder(Cpedigree_check(winner,dealer.getCard(),winner.getCard()));
 	gotoxy(x, y + 2); cout << "승자는 " << winner.getName() << "입니다.";

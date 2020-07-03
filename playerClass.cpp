@@ -3,7 +3,7 @@
 extern int survivor;
 extern int top;
 
-Player::Player() : used(0), gameMoney(50), play(true), die(false)
+Player::Player() :  gameMoney(50), play(true), die(false)
 {
 	char* temp;
 	temp = new char[20];
@@ -65,7 +65,7 @@ void Player::inputBet(int &totalBet,int& betMoney) // 베팅 범위 정해야 함.
 	//gameMoney = gameMoney - betMoney; // 고려
 }
 
-void Player::leaderBet(int &totalMoney,int& gambler, int &betMoney,int nowBet,int turn,Player member[],Player &dealer) //85 36
+void Player::leaderBet(int &totalMoney,int& gambler, int &betMoney,int nowBet,int turn,Player member[],Player &dealer,int &bet) //85 36
 {
 	int choice = 0,temp;
 	gotoxy(84, 12);
@@ -103,6 +103,7 @@ void Player::leaderBet(int &totalMoney,int& gambler, int &betMoney,int nowBet,in
 	case 2:
 		interAllin();
 		allMoney(betMoney, totalMoney, gambler);
+		bet = -1;
 		break;
 	case 3:
 		interDie();
@@ -185,44 +186,16 @@ void Player::returnPlay()
 	play = true;
 }
 
-void Player::resetUsed()
-{
-	used = 0;
-}
-
-int Player::returnUsed()
-{
-	return used;
-}
-
 void Player::call(int& betMoney,int &totalMoney)//,int& pastChoice)
 {
 	if(dieMoney ==0)
 		totalMoney = totalMoney + betMoney;
 	else
-	{
-		//switch (pastChoice)
-		//{
-		//case 3: //더블
-		//	while (dieMoney != betMoney / 2)
-		//	{
-		//		betMoney /= 2;
-		//		i++;
-		//	}
-		//	totalMoney = totalMoney + dieMoney*(pow(2,i)-1);
-		//	break;
-		//case 4: //하프
-		//	totalMoney = (betMoney - dieMoney) + totalMoney;
-		//	break;
-		//case 5: //올인
-		//	break;
-		//}
 		totalMoney = (betMoney - dieMoney) + totalMoney;
-	}
 
 }
 
-Player::Player(string setN) : used(0), gameMoney(50), play(true), die(false), dieMoney(0), retire(false)
+Player::Player(string setN) : gameMoney(50), play(true), die(false), dieMoney(0), retire(false)
 {
 	name = setN;
 }
@@ -234,10 +207,17 @@ void Player::setCardSR(int R, int S, int now)
 }
 void Player::setMax(int maxP, int maxN)
 {
-	maxPattern = maxP;
-	maxNumber = maxN;
+	maxPattern = maxN;
+	maxNumber = maxP;
 }
 
+void Player::setMax(int maxP, int maxN,int maxP2, int maxN2)
+{
+	maxPattern = maxN;
+	maxNumber = maxP;
+	maxPattern2 = maxN2;
+	maxNumber2 = maxP2;
+}
 card* Player::getCard()
 {
 	return myCard;
@@ -257,10 +237,18 @@ int Player::getNMax()
 {
 	return maxNumber;
 }
+int Player::getNMax2()
+{
+	return maxNumber2;
+}
 
 int Player::getPMax()
 {
 	return maxPattern;
+}
+int Player::getPMax2()
+{
+	return maxPattern2;
 }
 
 void Player::winnerMoney(int& totalBet)
